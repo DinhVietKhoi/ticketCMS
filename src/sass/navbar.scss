@@ -1,0 +1,80 @@
+.nav{
+    width: 252px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &__logo{
+        display: block;
+        width: 133px;
+        height: 58px;
+        margin-bottom: 60px;
+        & img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    &__list{
+        padding:0;
+    }
+    &__item{
+        list-style: none;
+        padding-bottom: 8px;
+        &:nth-child(6){
+            position: relative;
+            &::after{
+                content: "Gói dịch vụ";
+                width: 100%;
+                position: absolute;
+                bottom:-75%;
+                left: 80%;
+                transform: translate(-50%,-50%);
+                font-weight: 500;
+                font-size: 18px;
+                line-height: 26px;
+                color: #1E0D03;
+                letter-spacing: 1.5%;
+            }
+        }
+    }
+    &__link{
+        padding:15px 0;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        color:#1E0D03;
+        transition: all 0.1s;
+        & img{
+            padding: 0 15px 0 27px;
+        }
+        & span{
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 26px;
+            color: #1E0D03;
+            letter-spacing: 1.5%;
+        }
+        & img:nth-child(2){
+            display: none;
+        }
+        & img:nth-child(1){
+            display: block;
+        }
+    }
+}
+.active{
+    background: #FFB800;
+    border-radius: 8px;
+    & span{
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 26px;
+        color: #FFFFFF
+    }
+    & img:nth-child(1){
+        display: none;
+    }
+    & img:nth-child(2){
+        display: block;
+    }
+}

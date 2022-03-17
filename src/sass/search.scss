@@ -1,0 +1,24 @@
+.search{
+    position: relative;
+    height:48px;
+    & input{
+        width: 100%;
+        height: 100%;
+        border-radius: 12px;
+        padding: 10px 60px 10px 16px;
+        border: none;
+        outline: none;
+        background: #EDE6E6;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+    }
+    & img{
+        cursor: pointer;
+        position: absolute;
+        top:50%;
+        right: 14px;
+        transform: translateY(-50%);
+    }
+}

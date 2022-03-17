@@ -1,0 +1,18 @@
+.status{
+    border-radius: 4px;
+    border: 1px solid #03AC00;
+    display: -webkit-inline-box;
+
+    &__container{
+
+        padding:8px 7px;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 15px;
+        display: flex;
+        align-items: center;
+        & img{
+            margin-right: 8px;
+        }
+    }
+}

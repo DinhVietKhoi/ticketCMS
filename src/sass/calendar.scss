@@ -1,0 +1,30 @@
+.calendar{
+    
+    &__btn{
+        background: #FFFFFF;
+        border: 1px solid #E6E0E0;
+        border-radius: 4px;
+        width: 155px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        opacity: 0.78;
+        transition: all 0.2s ;     
+        & span{
+            color: #1E0D03;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 22px;     
+        }
+        & img{
+            width: 24px;
+            height: 24px;
+            margin-left: 10px;
+        }
+        &:hover{
+            opacity: 1;
+        }
+    }
+}

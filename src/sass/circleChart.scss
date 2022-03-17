@@ -1,0 +1,45 @@
+.circleChart{
+    width: 320px;
+    height: 320px;
+    &:nth-child(2){
+        margin:20px;
+    }
+}
+.circle__control{
+    justify-content: space-evenly;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.circleLegend{
+    // width: 120px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: -90px;
+    & span{
+        position: relative;
+        color: #1E0D03;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+        margin-bottom: 16px;
+        &::before{
+            content: '';
+            position: absolute;
+            top:0;
+            left:-52px;
+            width: 44px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        &:nth-child(1)::before{
+            background-color: #4F75FF;
+        }
+        &:nth-child(2)::before{
+            background-color: #FF8A48;
+        }
+    }
+}

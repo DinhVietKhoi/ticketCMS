@@ -1,0 +1,17 @@
+.btn{
+    cursor: pointer;
+    color: #FF993C;
+    border: 1px solid #FF993C;
+    &__container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding:11px 24px;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 26px;
+        & img{
+            margin-right: 12px;
+        }
+    }
+}

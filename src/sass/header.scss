@@ -1,0 +1,17 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    
+    &__noti{
+        display: flex;
+        align-items: center;
+        & img{
+            cursor: pointer;
+        }
+        & img:nth-child(2){
+            margin:0 24px;
+        }
+    }
+}

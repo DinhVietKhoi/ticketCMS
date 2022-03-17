@@ -1,0 +1,21 @@
+.app{
+    overflow: hidden;
+    background: #F9F6F4;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    min-height: 100vh;
+    padding: 17px 32px 32px 32px;
+    justify-content: space-between;
+    &__left{
+        flex:1;
+        padding-right: 36px;
+        min-height: 100%;
+    }
+    &__right{
+        flex:5;
+        height: calc(100% - 88px);
+        min-height: calc(100% - 88px);
+    }
+}
