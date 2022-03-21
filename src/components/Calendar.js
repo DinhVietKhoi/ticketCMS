@@ -1,12 +1,15 @@
 import React from 'react'
 import '../sass/calendar.scss'
 import calendar from '../assets/fi_calendar.png'
-function Calendar() {
+import calendar1 from '../assets/u_calendar-alt.png'
+function Calendar({text,disable}) {
   return (
     <div className="calendar">
-      <div className='calendar__btn'>
-        <span> Tháng 4, 2021</span>
-        <img src={calendar}></img>
+      <div className='calendar__btn' style={disable&&{background: '#E0E0E0',color:'#A5A8B1', opacity: '1'}}>
+        <span> {text}</span>
+        {
+          <img src={!disable?calendar:calendar1}></img>
+        }
       </div>
     </div>
   )

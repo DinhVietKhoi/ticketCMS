@@ -11,7 +11,7 @@ function Home() {
         <div className='home__line'>
           <div className='home__line-top'>
             <h4>Doanh thu</h4>
-            <Calendar />
+            <Calendar text='Tháng 4, 2021'/>
           </div>
           <div className='home__line-body'>
             <LineChart />
@@ -23,7 +23,7 @@ function Home() {
         </div>
         <div className='home__pie'>
           <div className='home__pie-top'>
-            <Calendar />
+            <Calendar text='Tháng 4, 2021' />
             <div className='home__pie-bottom'>
               <CircleChart />
             </div>

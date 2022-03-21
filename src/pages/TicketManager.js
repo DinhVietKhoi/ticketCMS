@@ -7,437 +7,10 @@ import dot1 from '../assets/Ellipse1.png'
 import dot2 from '../assets/Ellipse2.png'
 import '../sass/ticketManager.scss'
 import Status from '../components/Status'
-function TicketManager() {
-  const listTicker1 = [
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Chưa sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Chưa sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Chưa sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Chưa sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Chưa sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    }
-  ]
-  const listTicker = [
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Chưa sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Chưa sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Chưa sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Chưa sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Chưa sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Hết hạn',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    },
-    {
-      code: "ALT20210501" ,
-      numberTicker: "123456789034",
-      eventName: 'Hội chợ triển lãm tiêu dùng 2021',
-      status: 'Đã sử dụng',
-      dateUse: '14/04/2021',
-      dateBuy: '14/04/2021',
-      checkIn: 'Cổng 1'
-    }
-  ]
-  const [list,setList] = useState(listTicker)
+import Calendar from '../components/Calendar'
+function TicketManager({handleOverlay,filter,dataFamily,dataEvent}) {
+
+  const [list,setList] = useState(dataFamily)
   const [check,setCheck] = useState(true)
 
   const [className,setClassname] = useState('ticketManager__type--active')
@@ -446,15 +19,17 @@ function TicketManager() {
   const handleClick = ()=>{
     setClassname('ticketManager__type--active')
     setClassname1('')
-    setList(listTicker)
+    setList(dataFamily)
     setCheck(true)
   }
   const handleClick1 = ()=>{
-    setList(listTicker1 )
+    setList(dataEvent )
     setClassname1('ticketManager__type--active')
     setClassname('')
     setCheck(false)
-
+  }
+  const handFilter = ()=>{
+    handleOverlay()
   }
   return (
     <div className='ticketManager'>
@@ -467,7 +42,7 @@ function TicketManager() {
         <div className='ticketManager__top'>
           <Search placeholde='Tìm bằng số vé' input='small' />
           <div className='ticketManager__handle'>
-            <Btn icon={arrange} text='Lọc vé'/>
+            <Btn icon={arrange} text='Lọc vé' handeClick2={handleOverlay}/>
             <Btn text='Xuất file (.csv)'/>
           </div>
         </div>
@@ -478,7 +53,6 @@ function TicketManager() {
                 <th >STT</th>
                 <th>Booking code</th>
                 <th>Số vé</th>
-                <th>Tên sự kiện</th>
                 <th>Tình trạng sử dụng</th>
                 <th>Ngày sử dung</th>
                 <th>Ngày xuất vé</th>
@@ -488,6 +62,7 @@ function TicketManager() {
                 <th >STT</th>
                 <th>Booking code</th>
                 <th>Số vé</th>
+                <th>Tên sự kiện</th>
                 <th>Tình trạng sử dụng</th>
                 <th>Ngày sử dung</th>
                 <th>Ngày xuất vé</th>
@@ -501,7 +76,6 @@ function TicketManager() {
                     <td>{index+1}</td>
                     <td>{list.code}</td>
                     <td>{list.numberTicker}</td>
-                    <td>{list.eventName}</td>
                     {list.status==='Đã sử dụng'&&<td><Status status='0' text={list.status} dot={dot}/></td>}
                     {list.status==='Chưa sử dụng'&&<td><Status status='1' text={list.status} dot={dot1}/></td>}
                     {list.status==='Hết hạn'&&<td><Status status='2' text={list.status} dot={dot2}/></td>}
@@ -517,6 +91,7 @@ function TicketManager() {
                     <td>{index+1}</td>
                     <td>{list.code}</td>
                     <td>{list.numberTicker}</td>
+                    <td>{list.eventName}</td>
                     {list.status==='Đã sử dụng'&&<td><Status status='0' text={list.status} dot={dot}/></td>}
                     {list.status==='Chưa sử dụng'&&<td><Status status='1' text={list.status} dot={dot1}/></td>}
                     {list.status==='Hết hạn'&&<td><Status status='2' text={list.status} dot={dot2}/></td>}
@@ -530,6 +105,78 @@ function TicketManager() {
           </table>
         </div>
       </div>
+      {
+        filter&&<div className='ticketManager__filter'>
+        <div className='ticketManager__filter-top'>
+          <h1>Lọc vé</h1>
+        </div>
+        <div className='ticketManager__filter-main'>
+          <div className='ticketManager__filter-date'>
+              <div className='ticketManager__filter-date--group'>
+                <span>Từ ngày</span>
+                <Calendar text='Tháng 4, 2021'/>
+              </div>
+              <div className='ticketManager__filter-date--group'>
+                <h3>Đến ngày</h3>
+                <Calendar text='Tháng 4, 2021'/>
+              </div>
+          </div>
+          <div className='ticketManager__filter-status'>
+              <h3>Tình trạng sử dụng</h3>
+              <div className='ticketManager__filter-status--radio'>
+                <div className='ticketManager__filter-status--group'>
+                  <input type='radio'></input>
+                  <span>Tất cả</span>
+                </div>
+                <div className='ticketManager__filter-status--group'>
+                  <input type='radio'></input>
+                  <span>Đã sử dụng</span>
+                </div>
+                <div className='ticketManager__filter-status--group'>
+                  <input type='radio'></input>
+                  <span>Chưa sử dụng</span>
+                </div>
+                <div className='ticketManager__filter-status--group'>
+                  <input type='radio'></input>
+                  <span>Hết hạn</span>
+                </div>
+              </div>
+          </div>
+          <div className='ticketManager__filter-check'>
+            <h3>Cổng Check - in</h3>
+            <div className='ticketManager__filter-list'>
+              <div className='ticketManager__filter-list--group'>
+                <input type='checkbox'></input>
+                <span>Tất cả</span>
+              </div>
+              <div className='ticketManager__filter-list--group'>
+                <input type='checkbox'></input>
+                <span>Cổng 1</span>
+              </div>
+              <div className='ticketManager__filter-list--group'>
+                <input type='checkbox'></input>
+                <span>Cổng 2</span>
+              </div>
+              <div className='ticketManager__filter-list--group'>
+                <input type='checkbox'></input>
+                <span>Cổng 3</span>
+              </div>
+              <div className='ticketManager__filter-list--group'>
+                <input type='checkbox'></input>
+                <span>Cổng 4</span>
+              </div>
+              <div className='ticketManager__filter-list--group'>
+                <input type='checkbox'></input>
+                <span>Cổng 5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='ticketManager__filter-bottom'>
+          <button onClick={handFilter}>Lọc</button>
+        </div>
+        </div>
+      }
     </div>
   )
 }

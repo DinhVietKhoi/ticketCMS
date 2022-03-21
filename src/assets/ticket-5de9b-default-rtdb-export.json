@@ -1,0 +1,43 @@
+{
+  "ticketList" : {
+    "eventList" : {
+      "ALT20210501" : {
+        "checkIn" : 1,
+        "checkTicket" : 0,
+        "dateBuy" : "14/04/2021",
+        "dateUse" : "14/04/2021",
+        "eventName" : "Hội chợ triển lãm tiêu dùng 2021",
+        "id" : "ALT20210501",
+        "numberTicker" : 123456789034,
+        "status" : 0
+      }
+    },
+    "familyList" : {
+      "ALTFGHJU" : {
+        "checkIn" : 1,
+        "checkTicket" : 0,
+        "dateBuy" : "14/04/2021",
+        "dateUse" : "14/04/2021",
+        "id" : "ALTFGHJU",
+        "numberTicker" : 123456789034,
+        "status" : 0
+      }
+    }
+  },
+  "ticketPackages" : {
+    "ALTE20032022" : {
+      "begin" : "14/04/2021 08:00:00",
+      "finish" : "14/04/2021 23:00:00",
+      "id" : "ALTE20032022",
+      "money" : 20,
+      "name" : "Gói sự kiện"
+    },
+    "ALTF20032022" : {
+      "begin" : "14/04/2021 08:00:00",
+      "finish" : "14/04/2021 23:00:00",
+      "id" : "ALTF20032022",
+      "money" : 90,
+      "name" : "Gói gia đình"
+    }
+  }
+}

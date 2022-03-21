@@ -11,9 +11,10 @@
         align-items: center;
         cursor: pointer;
         opacity: 0.78;
-        transition: all 0.2s ;     
+        transition: all 0.2s ;    
+        color: #1E0D03;
+        
         & span{
-            color: #1E0D03;
             font-weight: 500;
             font-size: 14px;
             line-height: 22px;     

@@ -1,4 +1,119 @@
 .ticketManager{
+    &__filter{
+        padding: 24px 32px;
+        z-index: 100;
+        position: fixed;
+        width: 634px;
+        height: 454px;
+        background-color: red;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        background: #FFFFFF;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        & input{
+            width: 24px;
+            height: 24px;
+        }
+        & h3{
+            color: #1E0D03;
+            opacity: 0.8;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 26px;
+        }
+        &-top{
+            color: #1E0D03;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 30px;
+            margin-bottom: 24px;
+            & h1{
+                padding:0 !important;
+            }
+        }
+        &-main{
+            width: 100%;
+        }
+        &-date{
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            &--group{
+                & span{
+                    color: #1E0D03;
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 26px;
+                    opacity: 0.7;
+                }
+                flex: 0 0 50%;
+            }
+        }
+        &-status{
+            margin-bottom: 24px;
+            &--radio{
+                display: flex;
+            }
+            &--group{
+                flex: 0 0 25%;
+                display: flex;
+                align-items: center;
+                & span{
+                    padding-left: 8px;
+                    color: #1E0D03;
+                    opacity: 0.8;
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 20px;
+                }
+            }
+        }
+        &-list{
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 26px;
+            &--group{
+                & span{
+                    color: #1E0D03;
+                    opacity: 0.7;
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 20px;
+                    padding-left: 8px;
+                }
+                display: flex;
+                align-items: center;
+                flex: 0 0 33.33333333333%;
+                margin-bottom: 14px;
+            }
+        }
+        &-bottom{
+            & button{
+                transition: 0.125s;
+                &:hover{
+                    color:#fff;
+                    background-color: #FF993C;
+                }
+                cursor: pointer;
+                color: #FF993C;
+                font-weight: 700;
+                font-size: 18px;
+                line-height: 26px;
+                border-radius: 8px;
+                border: 1px solid #FF993C;
+                width: 160px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #fff;
+            }
+        }
+    }
     width: 100%;
     height: 100%;
     // min-height: 100vh;
@@ -55,6 +170,10 @@
         & th{
             border: none;
             padding: 0 10px;
+            text-align: start;
+            &:nth-child(1){
+                text-align: center;
+            }
         }
         & tr{
             height: 48px;
@@ -64,9 +183,11 @@
         & td{
             border: none;
             padding:0 10px;
-            &:nth-child(5),&:nth-child(4){
-                text-align: start;
+            text-align: start;
+            &:nth-child(1){
+                text-align: center;
             }
         }
     }
+    
 }
