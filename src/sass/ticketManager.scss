@@ -120,9 +120,12 @@
     background: #FFFFFF;
     border-radius: 24px;
     color: #1E0D03;
-    overflow-y: scroll;
+    overflow-y: auto;
     &__container{
         padding:24px 24px 0 24px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
     }
     & h1{
         font-weight: 700;
@@ -156,9 +159,17 @@
     &__handle{
         display: flex;
     }
+    &__bottom{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
     &__table{
         width: 100%;
         border-collapse: collapse; 
+        // margin-bottom: 50px;
         & thead{
             background: #F1F4F8;
             font-weight: 600;
@@ -189,5 +200,4 @@
             }
         }
     }
-    
 }

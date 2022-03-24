@@ -21,7 +21,8 @@
         background: #FFFFFF;    
         padding:24px 24px 0 24px;
         overflow-y: auto;
-
+        display: flex;
+        flex-direction: column;
     }
     &__filter{
         border-radius: 24px;
@@ -76,6 +77,7 @@
         }
         &-bottom{
             align-self: center;
+            
             & button{
                 transition: 0.125s;
                 &:hover{
@@ -152,5 +154,12 @@
                 color: #FD5959;
             }
         }
+    }
+    &__bottom{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex:1;
+        justify-content: space-between;
     }
 }

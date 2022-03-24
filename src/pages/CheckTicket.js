@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import Btn from '../components/Btn'
 import Calendar from '../components/Calendar'
+import Navigation from '../components/Navigation'
 import Search from '../components/Search'
 import '../sass/checkTicket.scss'
 function CheckTicket() {
+  const [radio,setRadio] = useState(true)
+  const [radio1,setRadio1] = useState()
+  const [radio2,setRadio2] = useState()
   const [check,setCheck] = useState(true)
   const [className,setClassname] = useState('checkTicket__type--active')
   const [className1,setClassname1] = useState('')
@@ -19,6 +23,19 @@ function CheckTicket() {
     setClassname1('checkTicket__type--active')
     setClassname('')
     setCheck(false)
+  }
+  const handleRadio = ()=>{
+    setRadio1(false)
+    setRadio2(false)
+    setRadio(true)
+  }
+  const handleRadio1 = ()=>{
+    setRadio(false)
+    setRadio1(!radio1)
+  }
+  const handleRadio2 = ()=>{
+    setRadio(false)
+    setRadio2(!radio2)
   }
   return (
     <div className='checkTicket'>
@@ -51,7 +68,7 @@ function CheckTicket() {
               <tbody>
                 {
                   number.map((n,i)=>[
-                    <tr key={i}>
+                    i<=9&&<tr key={i}>
                       <td>{i+1}</td>
                       <td>ALT20210501</td>
                       <td>14/04/2021</td>
@@ -65,6 +82,7 @@ function CheckTicket() {
                     
               </tbody>
             </table>
+            <Navigation />
           </div>
         </div>
         <div className='checkTicket__filter'>
@@ -73,15 +91,15 @@ function CheckTicket() {
             <h3>Tình trạng đối soát</h3>
             <div className='checkTicket__filter--radio'>
               <div className='checkTicket__filter--radio-group'>
-                <input type='radio'></input>
+                <input type='radio' checked={radio} onChange={handleRadio}></input>
                 <span>Tất cả</span>
               </div>
               <div className='checkTicket__filter--radio-group'>
-                <input type='radio'></input>
+                <input type='radio' checked={radio1} onChange={handleRadio1}></input>
                 <span>Đã đối soát</span>
               </div>
               <div className='checkTicket__filter--radio-group'>
-                <input type='radio'></input>
+                <input type='radio' checked={radio2} onChange={handleRadio2}></input>
                 <span>Chưa đối soát</span>
               </div>
             </div>
@@ -96,12 +114,13 @@ function CheckTicket() {
           </div>
           <div className='checkTicket__filter--status'>
             <h3>Đến ngày</h3>
-            <Calendar text='dd/mm/yy'/>
+            <Calendar text='dd/mm/yy' right/>
           </div>
           <div className='checkTicket__filter-bottom'>
-          <button>Lọc</button>
+            <button>Lọc</button>
+          </div>
         </div>
-        </div>
+
       </div>
     </div>
   )

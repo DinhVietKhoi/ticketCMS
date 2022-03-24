@@ -1085,27 +1085,28 @@ function App() {
   const [dataEvent,setDataevent] = useState(listTicker)
   const [overlay,setOverlay] = useState(false)
   const [filter,setFilter] = useState(false)
-
+  const [setting,setSetting] = useState(false)
   const handleOverlay = ()=>{
     setOverlay(!overlay)
     setFilter(!filter)
+    setSetting(!filter)
   }
   return (
     <BrowserRouter>
-      <div className="app">
-      {
-        overlay&&<div className='overlay' onClick={handleOverlay}></div>
-      }
+        <div className="app">
+        {
+          overlay&&<div className='overlay' onClick={handleOverlay}></div>
+        }
 
-        <div className="app__left">
-          <Navbar />
+          <div className="app__left">
+            <Navbar />
+          </div>
+          <div className="app__right">
+            <Header />
+            
+            <Router handleOverlay={handleOverlay} filter={filter} setting={setting} dataEvent={dataEvent} dataFamily={dataFamily}/>
+          </div>
         </div>
-        <div className="app__right">
-          <Header />
-          
-          <Router handleOverlay={handleOverlay} filter={filter} dataEvent={dataEvent} dataFamily={dataFamily}/>
-        </div>
-      </div>
     </BrowserRouter>
   );
 }
