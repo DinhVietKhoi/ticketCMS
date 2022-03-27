@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Btn from '../components/Btn'
 import Search from '../components/Search'
 import Status from '../components/Status'
@@ -7,8 +7,14 @@ import dot1 from '../assets/Ellipse2.png'
 import edit from '../assets/fi_edit.png'
 import '../sass/setting.scss'
 import UpdatePackage from '../components/UpdatePackage'
-import Navigation from '../components/Navigation'
-function Setting({handleOverlay,setting}) {
+import Pagigation from '../components/Pagigation'
+function Setting({handleOverlay,setting,data1}) {
+
+  const [dataList,setDataList] = useState()
+  useEffect(()=>{
+      setDataList(data1)
+  },[data1])
+  console.log('data',data1)
   const [check,setCheck] = useState(false)
   const handleClick = ()=>{
     setCheck(false)
@@ -18,6 +24,20 @@ function Setting({handleOverlay,setting}) {
     setCheck(true)
     handleOverlay()
   }
+  const [currentItems, setCurrentItems] = useState(null);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  
+  useEffect(() => {
+    const endOffset = itemOffset + 10;
+    dataList&&setCurrentItems(dataList.slice(itemOffset, endOffset));
+    dataList&&setPageCount(Math.ceil(dataList.length / 10));
+  }, [itemOffset,dataList]);
+  const handlePageClick = (event) => {
+    const newOffset = dataList&&(event.selected * 10 % dataList.length);
+    setItemOffset(newOffset);
+  };
+  console.log(currentItems)
   return (
     <div className='setting'>
       <div className='setting__container'>
@@ -51,31 +71,24 @@ function Setting({handleOverlay,setting}) {
                 </tr>
               </thead>
               <tbody>
-                    <tr >
-                      <td>1</td>
-                      <td>ALT20210501</td>
-                      <td>Gói gia đình</td>
-                      <td>14/04/2021 <br />08:00:00</td>
-                      <td>14/04/2021 <br />23:00:00</td>
-                      <td>90.000 VNĐ</td>
-                      <td>360.000 VNĐ/4 Vé</td>
-                      <td><Status status='1' text='Đang áp dụng' dot={dot} /></td>
+                {
+                  currentItems&&currentItems.map((current,index)=>[
+                    <tr key={index} style={index%2?{backgroundColor:'#F7F8FB'}:{backgroundColor:'#FFFFFF'}}>
+                      <td>{current.id}</td>
+                      <td>{current.codePackage}</td>
+                      <td>{current.namePackage}</td>
+                      <td>{current.dateStart}</td>
+                      <td>{current.dateEnd}</td>
+                      <td>{current.price}.000 VNĐ</td>
+                      <td>{current.combo&&current.combo+".000 VNĐ/4 Vé"}</td>
+                      <td><Status status={current.status} text={current.status==2?'Tắt':'Đang áp dụng'} dot={current.status==2?dot1:dot} /></td>
                       <td onClick={handleClick1}><div><img src={edit} ></img><span>Cập nhật</span></div></td>
                     </tr>
-                    <tr >
-                      <td>2</td>
-                      <td>ALT20210501</td>
-                      <td>Gói sự kiện</td>
-                      <td>14/04/2021 <br />08:00:00</td>
-                      <td>14/04/2021 <br />23:00:00</td>
-                      <td>20.000 VNĐ</td>
-                      <td></td>
-                      <td><Status status='2' text='Tắt' dot={dot1} /></td>
-                      <td onClick={handleClick1}><div><img src={edit} ></img><span>Cập nhật</span></div></td>
-                    </tr>
+                  ])
+                }
               </tbody>
             </table>
-          <Navigation />
+            <Pagigation handlePageClick={handlePageClick} pageCount={pageCount}/>
           </div>
       </div>
     </div>

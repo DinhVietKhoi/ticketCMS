@@ -1,20 +1,42 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import 'chart.js/auto';
 import {Chart as charts} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'react-chartjs-2';
 import { Bar, Doughnut, Pie } from 'react-chartjs-2';
 import '../sass/circleChart.scss'
-function CircleChart() {
+function CircleChart({dataa}) {
   charts.register(ChartDataLabels);
-
+  const [lengthCSD,setLengthCSD] = useState()
+  const [lengthDSD,setLengthDSD] = useState()
+  const [lengthCSD1,setLengthCSD1] = useState()
+  const [lengthDSD1,setLengthDSD1] = useState()
+  const [dataLength,setDataLength] = useState()
+  const [dataLength1,setDataLength1] = useState()
+  
+  useEffect(()=>{
+    dataa&&dataa.map((l,i)=>{
+      i===0&&setDataLength(dataa[1])
+      i===1&&setDataLength1(dataa[0])
+    })
+  },[dataa])
+  useEffect(()=>{
+    const CSD = dataLength&&dataLength.filter(l=>l.Status === 'CSD')
+    const DSD = dataLength&&dataLength.filter(l=>l.Status === 'DSD')
+    const CSD1 = dataLength1&&dataLength1.filter(l=>l.Status === 'CSD')
+    const DSD1 = dataLength1&&dataLength1.filter(l=>l.Status === 'DSD')
+    CSD&&setLengthCSD(CSD.length)
+    DSD&&setLengthDSD(DSD.length)
+    CSD1&&setLengthCSD1(CSD1.length)
+    DSD1&&setLengthDSD1(DSD1.length)
+  },[dataLength,dataLength1])
   let colorHex = ["#FF8A48","#4F75FF"];
     const data =
       {
         labels:['Vé chưa sử dụng','Vé đã sử dụng'],
         datasets: [
         {
-          data: [13568,56024],
+          data: [lengthCSD,lengthDSD],
           backgroundColor: colorHex,
           borderWidth: 0, 
         },
@@ -25,7 +47,7 @@ function CircleChart() {
         labels:['Vé chưa sử dụng','Vé đã sử dụng'],
         datasets: [
         {
-          data: [28302,30256],
+          data: [lengthCSD1,lengthDSD1],
           backgroundColor: colorHex,
           borderWidth: 0, 
         },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Btn from '../components/Btn'
 import Search from '../components/Search'
 import arrange from '../assets/arrange.png'
@@ -8,8 +8,18 @@ import dot2 from '../assets/Ellipse2.png'
 import '../sass/ticketManager.scss'
 import Status from '../components/Status'
 import Calendar from '../components/Calendar'
-import Navigation from '../components/Navigation'
-function TicketManager({handleOverlay,filter,dataFamily,dataEvent}) {
+import Pagigation from '../components/Pagigation'
+import ReactPaginate from 'react-paginate'
+import ellipsis from '../assets/u_ellipsis-v.png'
+import UpdatePackage from '../components/UpdatePackage'
+function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
+  const [dataList,setDataList] = useState()
+  useEffect(()=>{
+    data&&data.map((l,i)=>{
+      i===1&&setDataList(data[1])
+    })
+  },[data])
+  const [checkIndex,setCheckindex] = useState()
   const [radio,setRadio] = useState(true)
   const [radio1,setRadio1] = useState()
   const [radio2,setRadio2] = useState()
@@ -20,23 +30,25 @@ function TicketManager({handleOverlay,filter,dataFamily,dataEvent}) {
   const [checkBox3,setCheckbox3] = useState()
   const [checkBox4,setCheckbox4] = useState()
   const [checkBox5,setCheckbox5] = useState()
-  const [list,setList] = useState(dataFamily)
   const [check,setCheck] = useState(true)
-
   const [className,setClassname] = useState('ticketManager__type--active')
   const [className1,setClassname1] = useState('')
-
+  changeDate&&console.log(changeDate)
   const handleClick = ()=>{
+    data&&data.map((l,i)=>{
+      i===1&&setDataList(data[1])
+    })
     setClassname('ticketManager__type--active')
     setClassname1('')
-    setList(dataFamily)
     setCheck(true)
   }
   const handleClick1 = ()=>{
-    setList(dataEvent )
     setClassname1('ticketManager__type--active')
     setClassname('')
     setCheck(false)
+    data&&data.map((l,i)=>{
+      i===0&&setDataList(data[0])
+    })
   }
   const handFilter = ()=>{
     handleOverlay()
@@ -87,14 +99,35 @@ function TicketManager({handleOverlay,filter,dataFamily,dataEvent}) {
     setCheckbox(false)
     setCheckbox5(!checkBox5)
   }
-
+  const [currentItems, setCurrentItems] = useState(null);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  
+  useEffect(() => {
+    const endOffset = itemOffset + 10;
+    dataList&&setCurrentItems(dataList.slice(itemOffset, endOffset));
+    dataList&&setPageCount(Math.ceil(dataList.length / 10));
+  }, [itemOffset,dataList]);
+  const handlePageClick = (event) => {
+    const newOffset = dataList&&(event.selected * 10 % dataList.length);
+    setItemOffset(newOffset);
+  };
+  const handleMouseMove = (e)=>{
+    setCheckindex(e.id)
+  }
+  const [update,setUpdate] = useState()
+  const handleUpdate = (e)=>{
+    handleOverlay1()
+    setUpdate(e)
+  }
+  
   return (
     <div className='ticketManager'>
       <div className='ticketManager__container'>
         <h1>Danh sách vé</h1>
         <div className='ticketManager__type'>
-          <span onClick={handleClick} className={className}>Gói gia đình</span>
-          <span onClick={handleClick1} className={className1}>Gói sự kiện</span>
+          <span onClick={handleClick} className={className&&className}>Gói gia đình</span>
+          <span onClick={handleClick1} className={className1&&className1}>Gói sự kiện</span>
         </div>
         <div className='ticketManager__top'>
           <Search placeholde='Tìm bằng số vé' input='small' />
@@ -114,6 +147,7 @@ function TicketManager({handleOverlay,filter,dataFamily,dataEvent}) {
                 <th>Ngày sử dung</th>
                 <th>Ngày xuất vé</th>
                 <th>Cổng check-in</th>
+                <th></th>
               </tr>}
               {!check&&<tr>
                 <th >STT</th>
@@ -124,56 +158,46 @@ function TicketManager({handleOverlay,filter,dataFamily,dataEvent}) {
                 <th>Ngày sử dung</th>
                 <th>Ngày xuất vé</th>
                 <th>Cổng check-in</th>
+                <th></th>
               </tr>}
             </thead>
             <tbody>
-              {
-                check&&list.map((list,index)=>[
-                  index<=9&&<tr key={index} style={index%2?{backgroundColor:'#F7F8FB'}:{backgroundColor:'#FFFFFF'}}>
-                    <td>{index+1}</td>
-                    <td>{list.code}</td>
-                    <td>{list.numberTicker}</td>
-                    {list.status==='Đã sử dụng'&&<td><Status status='0' text={list.status} dot={dot}/></td>}
-                    {list.status==='Chưa sử dụng'&&<td><Status status='1' text={list.status} dot={dot1}/></td>}
-                    {list.status==='Hết hạn'&&<td><Status status='2' text={list.status} dot={dot2}/></td>}
+            {
+                check&&currentItems&&currentItems.map((list,index)=>[
+                  <tr key={index} style={index%2?{backgroundColor:'#F7F8FB'}:{backgroundColor:'#FFFFFF'}} onMouseMove={()=>handleMouseMove(list)}>
+                    <td>{list.id}</td>
+                    <td>{list.bookingCode}</td>
+                    <td>{list.ticketNumber}</td>
+                    {list.Status==='DSD'&&<td><Status status='0' text="Đã sử dụng" dot={dot}/></td>}
+                    {list.Status==='CSD'&&<td><Status status='1' text="Chưa sử dụng" dot={dot1}/></td>}
+                    {list.Status==='HH'&&<td><Status status='2' text="Hết hạn" dot={dot2}/></td>}
                     <td>{list.dateUse}</td>
-                    <td>{list.dateBuy}</td>
-                    <td>{list.checkIn}</td>
+                    <td>{list.dateSell}</td>
+                    <td>Cổng {list.gateCheck}</td>
+                    <td><img src={ellipsis} className={checkIndex&&checkIndex==list.id?'ticketManager__update':''} style={{opacity: '0', visibility: 'hidden', cursor: 'pointer'}} onClick={()=>handleUpdate(list)}></img></td>
                   </tr>
                 ])
               }
               {
-                !check&&list.map((list,index)=>[
-                  index<=9&&<tr key={index} style={index%2?{backgroundColor:'#F7F8FB'}:{backgroundColor:'#FFFFFF'}}>
-                    <td>{index+1}</td>
-                    <td>{list.code}</td>
-                    <td>{list.numberTicker}</td>
+                !check&&currentItems&&currentItems.map((list,index)=>[
+                  <tr key={index} style={index%2?{backgroundColor:'#F7F8FB'}:{backgroundColor:'#FFFFFF'}} onMouseMove={()=>handleMouseMove(list)}>
+                    <td>{list.id}</td>
+                    <td>{list.bookingCode}</td>
+                    <td>{list.ticketNumber}</td>
                     <td>{list.eventName}</td>
-                    {list.status==='Đã sử dụng'&&<td><Status status='0' text={list.status} dot={dot}/></td>}
-                    {list.status==='Chưa sử dụng'&&<td><Status status='1' text={list.status} dot={dot1}/></td>}
-                    {list.status==='Hết hạn'&&<td><Status status='2' text={list.status} dot={dot2}/></td>}
+                    {list.Status==='DSD'&&<td><Status status='0' text='Đã sử dụng' dot={dot}/></td>}
+                    {list.Status==='CSD'&&<td><Status status='1' text='Chưa sử dụng' dot={dot1}/></td>}
+                    {list.Status==='HH'&&<td><Status status='2' text='Hết hạn' dot={dot2}/></td>}
                     <td>{list.dateUse}</td>
-                    <td>{list.dateBuy}</td>
-                    <td>{list.checkIn}</td>
+                    <td>{list.dateSell}</td>
+                    <td>Cổng {list.gateCheck}</td>
+                    <td><img src={ellipsis} className={checkIndex&&checkIndex==list.id?'ticketManager__update':''} style={{opacity: '0', visibility: 'hidden', cursor: 'pointer'}} onClick={()=>handleUpdate(list)} ></img></td>
                   </tr>
                 ])
               }
             </tbody>
           </table>
-          <Navigation />
-          {/* <div className='ticketManager__navigation'>
-            <i className="fa-solid fa-caret-left"></i>
-            <div className='ticketManager__navigation--numberPage'>
-              <span>1</span>
-              <span>2</span>
-              <span>3</span>
-              <span>4</span>
-              <span>5</span>
-              <span>...</span>
-              <span>20</span>
-            </div>
-            <i className="fa-solid fa-caret-right"></i>
-          </div> */}
+          <Pagigation handlePageClick={handlePageClick} pageCount={pageCount}/>
         </div>
       </div>
       {
@@ -247,6 +271,41 @@ function TicketManager({handleOverlay,filter,dataFamily,dataEvent}) {
           <button onClick={handFilter}>Lọc</button>
         </div>
         </div>
+      }
+      {
+        changeDate&&<div className='ticketManager__changeDate'>
+                        <div className='ticketManager__changeDate--top'>
+                          <span className='ticketManager__changeDate--top--text'>Đổi ngày sử dụng vé</span>
+                        </div>
+                      <div className='ticketManager__changeDate--main'>
+                        <div className='ticketManager__changeDate--group'>
+                          <span className='ticketManager__changeDate--group--text'>Số vé</span>
+                          <span className='ticketManager__changeDate--group--text'>{update.ticketNumber}</span>
+                        </div>
+                        <div className='ticketManager__changeDate--group'>
+                          <span className='ticketManager__changeDate--group--text'>Loại vé</span>
+                          <span className='ticketManager__changeDate--group--text'>Vé cổng - {update.eventName?'Gói sự kiện':'Gói gia đình'}</span>
+                        </div>
+                        <div className='ticketManager__changeDate--group'>
+                          <span className='ticketManager__changeDate--group--text'>Tên sự kiện</span>
+                          <span className='ticketManager__changeDate--group--text'>Hội trợ triển lãm hàng tiêu dùng 2022</span>
+                        </div>
+                        <div className='ticketManager__changeDate--group'>
+                          <span className='ticketManager__changeDate--group--text'>Hạn sử dụng</span>
+                          <Calendar />
+                        </div>
+                      </div>
+                      <div className='ticketManager__changeDate--bottom'>
+                        <div className='updatePackage__btn'>
+                            <div  onClick={handleUpdate} className='updatePackage__btn-child updatePackage__btn--break'>
+                                Hủy
+                            </div>
+                            <div  onClick={handleUpdate} className='updatePackage__btn-child updatePackage__btn--save'>
+                                Lưu
+                            </div>
+                        </div>
+                      </div>
+                    </div>
       }
     </div>
   )

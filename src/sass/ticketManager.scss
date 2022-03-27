@@ -1,4 +1,8 @@
 .ticketManager{
+    &__update{
+        opacity:1 !important;
+        visibility: visible !important;
+    }
     &__filter{
         padding: 24px 32px;
         z-index: 100;
@@ -39,6 +43,7 @@
             width: 100%;
         }
         &-date{
+            
             display: flex;
             align-items: center;
             margin-bottom: 20px;
@@ -111,6 +116,88 @@
                 align-items: center;
                 justify-content: center;
                 background-color: #fff;
+            }
+        }
+    }
+    &__changeDate{
+        width: 758px;
+        height: 365px;
+        background: #FFFFFF;
+        z-index: 100;
+        padding: 24px 32px;
+        position: fixed;
+        top:50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        &--top{
+            &--text{
+                padding:0;
+                font-weight: 700;
+                font-size: 24px;
+                line-height: 30px;
+                display: flex;
+                align-items: center;
+                color: #1E0D03;
+                margin-bottom: 30px;
+            }
+        }
+        &--main{
+            width: 100%;
+        }
+        &--group{
+            display: flex;
+            align-items: center;
+            margin-bottom: 17px;
+            &--text{
+                flex:1;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 26px;
+                display: flex;
+                align-items: center;
+                color: #1E0D03;
+                opacity: 0.7;
+                &:last-child{
+                    flex:2;
+                }
+            }
+            &:last-child{
+                &>.calendar{
+                    flex:2;
+                }
+            }
+        }
+        &--bottom{
+            &>.updatePackage__btn{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                &-child{
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 160px;
+                    height: 48px;
+                    border: 1px solid #FF993C;
+                    border-radius: 8px;
+                    color: #FF993C;
+                    font-weight: 700;
+                    font-size: 18px;
+                    line-height: 26px;
+                    margin: 0px 12px;
+                    transition: .225s;
+                    &:hover{
+                        color:#FFFFFF;
+                        background: #FF993C;
+                    }
+                }
             }
         }
     }

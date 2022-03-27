@@ -67,14 +67,25 @@ function Calendar({text,disable,right}) {
       {
         check&&<div className='calendar__overLay' onClick={handleClick}></div>
       }
-      
-      <div className='calendar__btn' style={disable&&{background: '#E0E0E0',color:'#A5A8B1', opacity: '1'}} onClick={!disable&&handleClick}>
+      {
+        disable&&<div className='calendar__btn' style={{background: '#E0E0E0', opacity: '1'}} >
         {<span>Tháng {month}</span>}
         {
           <img src={!disable?calendar:calendar1}></img>
         }
         
       </div>
+      }
+      {
+        !disable&&<div className='calendar__btn' style={{color:'#A5A8B1'}} onClick={handleClick}>
+        {<span>Tháng {month}</span>}
+        {
+          <img src={!disable?calendar:calendar1}></img>
+        }
+        
+      </div>
+      }
+      
       {
         check&&
         <div className='calendar__app' style={right?{right:'0'}:{left:'0'}}>

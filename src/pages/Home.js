@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Calendar from '../components/Calendar'
 import CircleChart from '../components/CircleChart'
 import LineChart from '../components/LineChart'
 import '../sass/home.scss'
-function Home() {
+function Home({data}) {
+  const [money,setMoney] = useState()
+  useEffect(()=>{
+    const money = data&&((data[0].length * 90000) + (data[1].length * 20000))
+    money&&setMoney(money)
+  },[data])
   return (
     <div className='home'>
       <div className='home__container'>
@@ -18,14 +23,14 @@ function Home() {
           </div>
         </div>
         <div className='home__total'>
-          <span className='home__total-sp'>Tổng doanh thu theo tuần</span>
-          <strong className='home__total-st'>525.145.000<span className='home__total-sp1'>đồng</span></strong>
+          <span className='home__total-sp'>Tổng doanh thu</span>
+          <strong className='home__total-st'>{money&&money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}<span className='home__total-sp1'>đồng</span></strong>
         </div>
         <div className='home__pie'>
           <div className='home__pie-top'>
             <Calendar text='Tháng 4, 2021' />
             <div className='home__pie-bottom'>
-              <CircleChart />
+              <CircleChart dataa={data}/>
             </div>
             {/* <div className='home__pie-bottom'>
               <CircleChart />

@@ -11,9 +11,9 @@ function Header() {
     <div className='header'>
         <Search placeholde='search'/>
         <div className='header__noti'>
-            <img src={bell}></img>
-            <img src={mail}></img>
-            <Avatar avatar={avatar}/>
+          <img src={mail}></img>
+          <img src={bell}></img>
+          <Avatar avatar={avatar}/>
         </div>
     </div>
   )
