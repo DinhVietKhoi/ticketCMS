@@ -14,6 +14,7 @@ import ellipsis from '../assets/u_ellipsis-v.png'
 import UpdatePackage from '../components/UpdatePackage'
 function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
   const [dataList,setDataList] = useState()
+  // const [arr,setArr] = useState([])
   useEffect(()=>{
     data&&data.map((l,i)=>{
       i===1&&setDataList(data[1])
@@ -33,7 +34,7 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
   const [check,setCheck] = useState(true)
   const [className,setClassname] = useState('ticketManager__type--active')
   const [className1,setClassname1] = useState('')
-  changeDate&&console.log(changeDate)
+  // changeDate&&console.log(changeDate)
   const handleClick = ()=>{
     data&&data.map((l,i)=>{
       i===1&&setDataList(data[1])
@@ -51,6 +52,38 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
     })
   }
   const handFilter = ()=>{
+    // checkBox&&radio&&data&&setDataList(data[1])
+    let dataa = []
+    if(radio3===true){
+       dataa = data&&data[1].filter(f=>f.Status === "HH")
+    }
+    else if(radio2===true){
+       dataa = data&&data[1].filter(f=>f.Status === "CSD")
+    }
+    else if(radio1===true){
+       dataa = data&&data[1].filter(f=>f.Status === "DSD")
+    }
+    else if(radio===true){
+      dataa = data&&data[1].filter(f=>f.Status === "DSD"||f.Status === "CSD"||f.Status === "HH")
+    }
+    let arr = []
+    checkBox&&arr.push(1,2,3,4,5)
+    checkBox1&&arr.push(1)
+    checkBox2&&arr.push(2)
+    checkBox3&&arr.push(3)
+    checkBox4&&arr.push(4)
+    checkBox5&&arr.push(5)
+    // console.log(arr)
+    const dataaa = [];
+    dataa.map(l=>{
+      arr.map(arr=>{
+        if(arr===l.gateCheck){
+          dataaa.push(l)
+        } 
+      })
+    })
+    console.log(dataaa)
+    setDataList(dataaa)
     handleOverlay()
   }
   const handleRadio = ()=>{
@@ -62,14 +95,20 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
   const handleRadio1 = ()=>{
     setRadio(false)
     setRadio1(!radio1)
+    setRadio2(false)
+    setRadio3(false)
   }
   const handleRadio2 = ()=>{
     setRadio(false)
-    setRadio2(!radio2)
+    setRadio1(false)
+    setRadio2(true)
+    setRadio3(false)
   }
   const handleRadio3 = ()=>{
     setRadio(false)
-    setRadio3(!radio3)
+    setRadio1(false)
+    setRadio2(false)
+    setRadio3(true)
   }
   const handleCheckBox = ()=>{
     setCheckbox(true)
@@ -120,7 +159,11 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
     handleOverlay1()
     setUpdate(e)
   }
-  
+  const handleChange = (value)=>{
+    console.log(value)
+    const  dataa = data&&data[1].filter(f=>f.ticketNumber.startsWith(value)===true)
+    setDataList(dataa)
+  }
   return (
     <div className='ticketManager'>
       <div className='ticketManager__container'>
@@ -130,7 +173,7 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
           <span onClick={handleClick1} className={className1&&className1}>Gói sự kiện</span>
         </div>
         <div className='ticketManager__top'>
-          <Search placeholde='Tìm bằng số vé' input='small' />
+          <Search placeholde='Tìm bằng số vé' input='small' onChange={handleChange}/>
           <div className='ticketManager__handle'>
             <Btn icon={arrange} text='Lọc vé' handleClick={handleOverlay}/>
             <Btn text='Xuất file (.csv)'/>

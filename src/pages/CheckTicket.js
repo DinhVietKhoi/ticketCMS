@@ -41,12 +41,14 @@ function CheckTicket({data}) {
     setRadio(true)
   }
   const handleRadio1 = ()=>{
+    setRadio1(true)
+    setRadio2(false)
     setRadio(false)
-    setRadio1(!radio1)
   }
   const handleRadio2 = ()=>{
+    setRadio1(false)
+    setRadio2(true)
     setRadio(false)
-    setRadio2(!radio2)
   }
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
@@ -61,6 +63,11 @@ function CheckTicket({data}) {
     const newOffset = dataList&&(event.selected * 10 % dataList.length);
     setItemOffset(newOffset);
   };
+  const handleFilter = ()=>{
+    radio&&data&&setDataList(data[1])
+    radio1&&data&&setDataList(data[1].filter(l=>l.ticketCheck===true))
+    radio2&&data&&setDataList(data[1].filter(l=>l.ticketCheck===false))
+  }
   return (
     <div className='checkTicket'>
       <div className='checkTicket__container'>
@@ -135,6 +142,11 @@ function CheckTicket({data}) {
         </div>
         <div className='checkTicket__filter'>
           <h2>Lọc vé</h2>
+          {
+            !check&&<select>
+                      <option>Hội chợ triển lãm tiêu dùng 2022</option>
+                    </select>
+          }
           <div className='checkTicket__filter--status'>
             <h3>Tình trạng đối soát</h3>
             <div className='checkTicket__filter--radio'>
@@ -165,7 +177,7 @@ function CheckTicket({data}) {
             <Calendar text='dd/mm/yy' right/>
           </div>
           <div className='checkTicket__filter-bottom'>
-            <button>Lọc</button>
+            <button onClick={handleFilter}>Lọc</button>
           </div>
         </div>
 
