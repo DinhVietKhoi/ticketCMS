@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { ref, set, getDatabase, onValue} from 'firebase/database'
+import db  from '../firebase'
 import Btn from '../components/Btn'
 import Search from '../components/Search'
 import Status from '../components/Status'
@@ -9,12 +11,19 @@ import '../sass/setting.scss'
 import UpdatePackage from '../components/UpdatePackage'
 import Pagigation from '../components/Pagigation'
 function Setting({handleOverlay,setting,data1}) {
-
+  const [checkPackage,setCheckPackage] = useState()
+  useEffect(()=>{
+    onValue((ref(db,'checkPackage/id')),(snapshot)=>{
+      const data = snapshot.val();
+      const ticketList = data
+      setCheckPackage(ticketList)
+    })
+  },[])
   const [dataList,setDataList] = useState()
   useEffect(()=>{
       setDataList(data1)
   },[data1])
-  console.log('data',data1)
+  // console.log('data',data1)
   const [check,setCheck] = useState(false)
   const handleClick = ()=>{
     setCheck(false)
@@ -37,15 +46,35 @@ function Setting({handleOverlay,setting,data1}) {
     const newOffset = dataList&&(event.selected * 10 % dataList.length);
     setItemOffset(newOffset);
   };
-  console.log(currentItems)
+  // console.log(currentItems)
+  const handleCancel = ()=>{
+    handleOverlay()
+  }
+  
+  const handle = (name,dateStart,dateEnd,price,combo,status)=>{
+    handleOverlay()
+    set(ref(db,`packageList/${checkPackage-1}`),{
+      id:checkPackage,
+      codePackage:"ALT20210501",
+      combo:combo>0?combo:'',
+      dateEnd:`${dateEnd} 23:00:00`,
+      dateStart:`${dateStart} 08:00:00`,
+      namePackage:name,
+      price:~~price,
+      status:status=='Đang áp dụng'?1:2
+    })
+    set(ref(db,'checkPackage'),{
+      id:checkPackage+1
+    })
+  }
   return (
     <div className='setting'>
       <div className='setting__container'>
         {
-          setting&&!check&&<UpdatePackage handleOverlay={handleOverlay}/>
+          setting&&!check&&<UpdatePackage handle={handle} handleCancel={handleCancel}/>
         }
         {
-          setting&&check&&<UpdatePackage handleOverlay={handleOverlay} event/>
+          setting&&check&&<UpdatePackage handle={handle} handleCancel={handleCancel} event/>
         }
       <h1>Danh sách gói vé</h1>
         <div className='setting__top'>

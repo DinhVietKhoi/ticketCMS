@@ -4,12 +4,12 @@ import '../sass/pagigation.scss'
 function Pagigation({handlePageClick,pageCount}) {
   return (
     <ReactPaginate
-      nextLabel={<i class="fa-solid fa-caret-right"></i>}
+      nextLabel={<i className="fa-solid fa-caret-right"></i>}
       onPageChange={handlePageClick}
       pageRangeDisplayed={3}
       marginPagesDisplayed={2}
       pageCount={pageCount}
-      previousLabel={<i class="fa-solid fa-caret-left"></i>}
+      previousLabel={<i className="fa-solid fa-caret-left"></i>}
       pageClassName="page-item"
       pageLinkClassName="page-link"
       previousClassName="page-item"

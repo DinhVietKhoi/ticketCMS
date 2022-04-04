@@ -64,9 +64,17 @@ function CheckTicket({data}) {
     setItemOffset(newOffset);
   };
   const handleFilter = ()=>{
-    radio&&data&&setDataList(data[1])
-    radio1&&data&&setDataList(data[1].filter(l=>l.ticketCheck===true))
-    radio2&&data&&setDataList(data[1].filter(l=>l.ticketCheck===false))
+    if(check){
+      radio&&data&&setDataList(data[1])
+      radio1&&data&&setDataList(data[1].filter(l=>l.ticketCheck===true))
+      radio2&&data&&setDataList(data[1].filter(l=>l.ticketCheck===false))
+    }
+    else if(!check){
+      radio&&data&&setDataList(data[0])
+      radio1&&data&&setDataList(data[0].filter(l=>l.ticketCheck===true))
+      radio2&&data&&setDataList(data[0].filter(l=>l.ticketCheck===false))
+    }
+    
   }
   return (
     <div className='checkTicket'>

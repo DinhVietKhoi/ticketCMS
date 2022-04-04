@@ -6,20 +6,31 @@ import calendar from '../assets/fi_calendar.png'
 import calendar1 from '../assets/u_calendar-alt.png'
 import pre from '../assets/Previous.png'
 import next from '../assets/Next.png'
-function Calendar({text,disable,right}) {
+function Calendar({text,disable,right,handleGetDayJs}) {
   const [overLay,setOverlay] = useState(false)
   const [checked,setChecked] = useState(true)
   const [check,setCheck] = useState(false)
   const [dayObj,setDayObj] = useState(dayjs())
   const [month,setMonth] = useState('')
+  const [month1,setMonth1] = useState('')
+
   const todayObj = dayjs()
+  const [dayACtive,setDayActive] = useState(dayjs().date())
+  const [monthACtive,setMonthActive] = useState(dayjs().month())
+  const [yearACtive,setYearActive] = useState(dayjs().year())
   const handleClick = ()=>{
     setCheck(!check)
     setOverlay(true)
+    handleGetDayJs(dayACtive,monthACtive,yearACtive)
+
   }
   useEffect(()=>{
     setMonth(dayObj.format(`M, YYYY`))
+    setMonth1(dayObj.format(`DD/MM/YYYY`))
+    
   },[dayObj])
+  
+
   const daysWeek = ['CN','T2','T3','T4','T5','T6','T7']
   const daysInMonth = dayObj.daysInMonth()
   const handlePrev = () => {
@@ -62,6 +73,12 @@ function Calendar({text,disable,right}) {
 // for (var i = 0; i < dateArr.length; i++) {
 //     console.log(dateArr[i])
 // }
+  const handleGetDay = (i) =>{
+    i>=10?setMonth1(dayObj.format(`${i}/MM/YYYY`)):setMonth1(dayObj.format(`0${i}/MM/YYYY`))
+    setMonthActive(dayObj.format(`M`)-1)
+    setYearActive(dayObj.format(`YYYY`))
+    setDayActive(i)
+  }
   return (
     <div className="calendar" >
       {
@@ -123,10 +140,10 @@ function Calendar({text,disable,right}) {
             }
             {
               range(daysInMonth).map(i => (
-                <div key={i} className={`calendar__days-month--text ${
-                  i + 1 === todayObj.date() &&
-                  thisMonth === todayObj.month() &&
-                  thisYear === todayObj.year()
+                <div onClick={handleGetDay.bind(this,i+1)} key={i} className={`calendar__days-month--text ${
+                  i + 1 === dayACtive &&
+                  thisMonth === ~~(monthACtive) &&
+                  thisYear === ~~(yearACtive)
                     ? "calendar__days-month--text--active"
                     : ""
                 }`}>
@@ -141,8 +158,8 @@ function Calendar({text,disable,right}) {
             }
             {
               range(6 - weekDayOfLast).map(i => (
-                <div key={i} className='calendar__days-month--text'>
-                  <span style={{opacity: '0.3'}}>{dayObjOfLast.add(i + 1 , "day").date()}</span>
+                <div  key={i} className='calendar__days-month--text' >
+                  <span  style={{opacity: '0.3'}}>{dayObjOfLast.add(i + 1 , "day").date()}</span>
                 </div>
               ))
             }

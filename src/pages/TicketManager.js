@@ -53,18 +53,53 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
   }
   const handFilter = ()=>{
     // checkBox&&radio&&data&&setDataList(data[1])
-    let dataa = []
+    if(check){
+      let dataa = []
+      if(radio3===true){
+         dataa = data&&data[1].filter(f=>f.Status === "HH")
+      }
+      else if(radio2===true){
+         dataa = data&&data[1].filter(f=>f.Status === "CSD")
+      }
+      else if(radio1===true){
+         dataa = data&&data[1].filter(f=>f.Status === "DSD")
+      }
+      else if(radio===true){
+        dataa = data&&data[1].filter(f=>f.Status === "DSD"||f.Status === "CSD"||f.Status === "HH")
+      }
+      let arr = []
+      checkBox&&arr.push(1,2,3,4,5)
+      checkBox1&&arr.push(1)
+      checkBox2&&arr.push(2)
+      checkBox3&&arr.push(3)
+      checkBox4&&arr.push(4)
+      checkBox5&&arr.push(5)
+      // console.log(arr)
+      const dataaa = [];
+      dataa.map(l=>{
+        arr.map(arr=>{
+          if(arr===l.gateCheck){
+            dataaa.push(l)
+          } 
+        })
+      })
+      console.log(dataaa)
+      setDataList(dataaa)
+      handleOverlay()
+    }
+    else if(!check){
+      let dataa = []
     if(radio3===true){
-       dataa = data&&data[1].filter(f=>f.Status === "HH")
+       dataa = data&&data[0].filter(f=>f.Status === "HH")
     }
     else if(radio2===true){
-       dataa = data&&data[1].filter(f=>f.Status === "CSD")
+       dataa = data&&data[0].filter(f=>f.Status === "CSD")
     }
     else if(radio1===true){
-       dataa = data&&data[1].filter(f=>f.Status === "DSD")
+       dataa = data&&data[0].filter(f=>f.Status === "DSD")
     }
     else if(radio===true){
-      dataa = data&&data[1].filter(f=>f.Status === "DSD"||f.Status === "CSD"||f.Status === "HH")
+      dataa = data&&data[0].filter(f=>f.Status === "DSD"||f.Status === "CSD"||f.Status === "HH")
     }
     let arr = []
     checkBox&&arr.push(1,2,3,4,5)
@@ -85,6 +120,7 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
     console.log(dataaa)
     setDataList(dataaa)
     handleOverlay()
+    }
   }
   const handleRadio = ()=>{
     setRadio1(false)
