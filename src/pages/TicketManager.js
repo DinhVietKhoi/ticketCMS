@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import dayjs, { Dayjs } from 'dayjs'
+import { ref, set, getDatabase, onValue} from 'firebase/database'
+import db  from '../firebase'
 import Btn from '../components/Btn'
 import Search from '../components/Search'
 import arrange from '../assets/arrange.png'
@@ -15,6 +18,8 @@ import UpdatePackage from '../components/UpdatePackage'
 function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
   const [dataList,setDataList] = useState()
   // const [arr,setArr] = useState([])
+  const [dayObj,setDayObj] = useState(dayjs())
+
   useEffect(()=>{
     data&&data.map((l,i)=>{
       i===1&&setDataList(data[1])
@@ -83,7 +88,6 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
           } 
         })
       })
-      console.log(dataaa)
       setDataList(dataaa)
       handleOverlay()
     }
@@ -117,7 +121,6 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
         } 
       })
     })
-    console.log(dataaa)
     setDataList(dataaa)
     handleOverlay()
     }
@@ -191,12 +194,54 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
     setCheckindex(e.id)
   }
   const [update,setUpdate] = useState()
+  const [date,setdaate] = useState(dayObj.format(`DD/MM/YYYY`))
+  const handleGetDayJs = (dayACtive,monthACtive,yearACtive) =>{
+    dayACtive<10&&(monthACtive+1)<10
+    ?
+    setdaate(`0${dayACtive}/0${monthACtive+1}/${yearACtive}`)
+    :
+    dayACtive<10&&(monthACtive+1)>=10
+    ?
+    setdaate(`0${dayACtive}/${monthACtive+1}/${yearACtive}`)
+    :
+    dayACtive>=10&&(monthACtive+1)<10
+    ?
+    setdaate(`${dayACtive}/0${monthACtive+1}/${yearACtive}`)
+    :
+    setdaate(`${dayACtive}/${monthACtive+1}/${yearACtive}`)
+  }
   const handleUpdate = (e)=>{
     handleOverlay1()
     setUpdate(e)
   }
+  const handleUpdate1 = ()=>{
+    check===true?
+    set(ref(db,`ticketList/familyList/${update.id-1}`),{
+      Status:update.Status,
+      bookingCode:update.bookingCode,
+      dateSell:update.dateSell,
+      dateUse:date,
+      gateCheck:update.gateCheck,
+      id:update.id,
+      ticketCheck:update.ticketCheck,
+      ticketNumber:update.ticketNumber
+    })
+    :
+    set(ref(db,`ticketList/eventList/${update.id-1}`),{
+      Status:update.Status,
+      bookingCode:update.bookingCode,
+      dateSell:update.dateSell,
+      dateUse:date,
+      gateCheck:update.gateCheck,
+      id:update.id,
+      ticketCheck:update.ticketCheck,
+      ticketNumber:update.ticketNumber,
+      eventName:update.eventName,
+      typeTicket:update.typeTicket
+    })
+    handleOverlay1()
+  }
   const handleChange = (value)=>{
-    console.log(value)
     const  dataa = data&&data[1].filter(f=>f.ticketNumber.startsWith(value)===true)
     setDataList(dataa)
   }
@@ -371,7 +416,7 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
                         </div>
                         <div className='ticketManager__changeDate--group'>
                           <span className='ticketManager__changeDate--group--text'>Hạn sử dụng</span>
-                          <Calendar />
+                          <Calendar handleGetDayJs={handleGetDayJs}/>
                         </div>
                       </div>
                       <div className='ticketManager__changeDate--bottom'>
@@ -379,7 +424,7 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
                             <div  onClick={handleUpdate} className='updatePackage__btn-child updatePackage__btn--break'>
                                 Hủy
                             </div>
-                            <div  onClick={handleUpdate} className='updatePackage__btn-child updatePackage__btn--save'>
+                            <div  onClick={handleUpdate1} className='updatePackage__btn-child updatePackage__btn--save'>
                                 Lưu
                             </div>
                         </div>

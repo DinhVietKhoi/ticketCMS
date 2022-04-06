@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ref, set, getDatabase, onValue} from 'firebase/database'
+import { ref, set, onValue} from 'firebase/database'
 import db  from '../firebase'
 import Btn from '../components/Btn'
 import Search from '../components/Search'
