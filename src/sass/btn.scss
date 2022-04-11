@@ -3,6 +3,7 @@
     color: #FF993C;
     border: 1px solid #FF993C;
     &__container{
+        color:inherit;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -10,8 +11,12 @@
         font-weight: 700;
         font-size: 18px;
         line-height: 26px;
+        text-decoration: none;
         & img{
             margin-right: 12px;
+        }
+        & span{
+            color:inherit;
         }
     }
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import { CSVLink } from "react-csv";
 import '../sass/btn.scss'
 function Btn({icon,text,active,handleClick}) {
   return (
@@ -7,7 +8,9 @@ function Btn({icon,text,active,handleClick}) {
             {
                 icon&&<img src={icon}></img>
             }
-            <span>{text}</span>
+            <span>
+                {text}
+            </span>
         </div>
     </div>
   )

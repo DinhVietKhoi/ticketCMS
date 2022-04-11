@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { CSVLink } from "react-csv";
 import ReactPaginate from 'react-paginate'
 import Btn from '../components/Btn'
 import Calendar from '../components/Calendar'
@@ -13,8 +14,8 @@ function CheckTicket({data}) {
     })
   },[data])
   const [radio,setRadio] = useState(true)
-  const [radio1,setRadio1] = useState()
-  const [radio2,setRadio2] = useState()
+  const [radio1,setRadio1] = useState(false)
+  const [radio2,setRadio2] = useState(false)
   const [check,setCheck] = useState(true)
   const [className,setClassname] = useState('checkTicket__type--active')
   const [className1,setClassname1] = useState('')
@@ -50,6 +51,65 @@ function CheckTicket({data}) {
     setRadio2(true)
     setRadio(false)
   }
+  const [csvData,setCsvData] = useState([])
+  const [csvReport,setCsvReport] = useState()
+  const headerCsv = [
+    { label: "STT", key: "stt" },
+    { label: "Số vé", key: "sove" },
+    { label: "Ngày sử dụng", key: "ngaysudung" },
+    { label: "Tên loại vé", key: "tenloaive" },
+    { label: "Cổng check - in", key: "congcheckin" },
+    { label: "Tình trạng", key: "tinhtrang" },
+  ]
+  const headerCsv1 = [
+    { label: "STT", key: "stt" },
+    { label: "Số vé", key: "sove" },
+    { label: "Tên sự kiện", key: "tensukien" },
+    { label: "Ngày sử dụng", key: "ngaysudung" },
+    { label: "Tên loại vé", key: "tenloaive" },
+    { label: "Cổng check - in", key: "congcheckin" },
+    { label: "Tình trạng", key: "tinhtrang" },
+  ]
+  useEffect(()=>{
+    setCsvData([])
+    check&&dataList&&dataList.map(data=>{
+      setCsvData(pre  => 
+        [
+          ...pre,
+          {
+            "stt":`${data.id}`,
+            "sove":data.ticketNumber,
+            "ngaysudung":data.dateUse,
+            "tenloaive":"Vé cổng",
+            "congcheckin":`Cổng ${data.gateCheck}`,
+            "tinhtrang":data.ticketCheck==true?"Đã đối soát":"Chưa đối soát"}])
+    })
+    !check&&dataList&&dataList.map(data=>{
+      setCsvData(pre  => 
+        [
+          ...pre,
+          {
+            "stt":`${data.id}`,
+            "sove":data.ticketNumber,
+            "tensukien":data.eventName,
+            "ngaysudung":data.dateUse,
+            "tenloaive":"Vé cổng",
+            "congcheckin":`Cổng ${data.gateCheck}`,
+            "tinhtrang":data.ticketCheck==true?"Đã đối soát":"Chưa đối soát"}])
+    })
+  },[dataList])
+  useEffect(()=>{
+    check&&setCsvReport({
+      data: csvData,
+      headers: headerCsv,
+      filename: 'Danhsachdoisoatve.csv'
+    })
+    !check&&setCsvReport({
+      data: csvData,
+      headers: headerCsv1,
+      filename: 'Danhsachdoisoatve.csv'
+    })
+  },[csvData])
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -76,6 +136,17 @@ function CheckTicket({data}) {
     }
     
   }
+  const handleChange = (value)=>{
+    if(check){
+      const  dataa = data&&data[1].filter(f=>f.ticketNumber.startsWith(value)===true)
+      setDataList(dataa)
+    }
+    else {
+      const  dataa = data&&data[0].filter(f=>f.ticketNumber.startsWith(value)===true)
+      setDataList(dataa)
+    }
+    
+  }
   return (
     <div className='checkTicket'>
       <div className='checkTicket__container'>
@@ -86,9 +157,17 @@ function CheckTicket({data}) {
             <span onClick={handleClick1} className={className1}>Gói sự kiện</span>
           </div>
           <div className='checkTicket__top'>
-            <Search placeholde='Tìm bằng số vé' input='small' />
+            <Search placeholde='Tìm bằng số vé' input='small' onChange={handleChange}/>
             <div className='ticketManager__handle'>
-              <Btn text='Xuất file (.csv)'/>
+            {
+              csvReport&&<div className='btn' style={{marginLeft: '10px',borderRadius: '8px'}}>
+                          <CSVLink {...csvReport} className='btn__container'>
+                              <span>
+                                  Xuất file(.CSV)
+                              </span>
+                          </CSVLink>
+                        </div>
+            }
               <Btn text='Chốt đối soát' active='true'/>
             </div>
           </div>
@@ -122,7 +201,7 @@ function CheckTicket({data}) {
                   check&&currentItems&&currentItems.map((n,i)=>[
                     <tr key={i} style={i%2?{backgroundColor:'#F7F8FB'}:{backgroundColor:'#FFFFFF'}} >
                       <td>{n.id}</td>
-                      <td>{n.bookingCode}</td>
+                      <td>{n.ticketNumber}</td>
                       <td>{n.dateUse}</td>
                       <td>Vé cổng</td>
                       <td>Cổng {n.gateCheck}</td>
@@ -134,7 +213,7 @@ function CheckTicket({data}) {
                   !check&&currentItems&&currentItems.map((n,i)=>[
                     <tr key={i} style={i%2?{backgroundColor:'#F7F8FB'}:{backgroundColor:'#FFFFFF'}}>
                       <td>{n.id}</td>
-                      <td>{n.bookingCode}</td>
+                      <td>{n.ticketNumber}</td>
                       <td>{n.eventName}</td>
                       <td>{n.dateUse}</td>
                       <td>Vé cổng</td>
@@ -178,11 +257,11 @@ function CheckTicket({data}) {
           </div>
           <div className='checkTicket__filter--date'>
             <h3>Từ ngày</h3>
-            <Calendar text='01/05/2021' disable/>
+            <Calendar showDate disable/>
           </div>
           <div className='checkTicket__filter--status'>
             <h3>Đến ngày</h3>
-            <Calendar text='dd/mm/yy' right/>
+            <Calendar  hideDate right/>
           </div>
           <div className='checkTicket__filter-bottom'>
             <button onClick={handleFilter}>Lọc</button>

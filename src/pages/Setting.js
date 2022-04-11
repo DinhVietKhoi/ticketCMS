@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ref, set, onValue} from 'firebase/database'
+import { CSVLink } from "react-csv";
 import db  from '../firebase'
 import Btn from '../components/Btn'
 import Search from '../components/Search'
@@ -20,19 +21,44 @@ function Setting({handleOverlay,setting,data1}) {
     })
   },[])
   const [dataList,setDataList] = useState()
+  const [csvData,setCsvData] = useState([])
+  const [csvReport,setCsvReport] = useState()
+  const headerCsv = [
+    { label: "STT", key: "stt" },
+    { label: "Mã gói", key: "magoi" },
+    { label: "Tên gói vé", key: "tengoive" },
+    { label: "Ngày áp dụng", key: "ngayapdung" },
+    { label: "Ngày hết hạn", key: "ngayhethan" },
+    { label: "Giá vé", key: "giave" },
+    { label: "Giá Combo", key: "giacombo" },
+    { label: "Tình trạng", key: "tinhtrang" },
+  ]
   useEffect(()=>{
       setDataList(data1)
+      setCsvData([])
+      data1&&data1.map(data=>{
+        setCsvData(pre=>[...pre,{"stt":`${data.id}`,"magoi":data.codePackage,"tengoive":data.namePackage,"ngayapdung":data.dateStart,"ngayhethan":data.dateEnd,"giave":`${formatMoney(~~data.price)} VNĐ`,"giacombo":data.combo==0?"":`${formatMoney(~~data.combo)} VNĐ/4 Vé`,"tinhtrang":data.status===1?"Đang áp dụng":"Tắt"}])
+      })
   },[data1])
-  // console.log('data',data1)
+  useEffect(()=>{
+    setCsvReport({
+      data: csvData,
+      headers: headerCsv,
+      filename: 'Danhsachgoive.csv'
+    })
+  },[csvData])
   const [check,setCheck] = useState(false)
   const handleClick = ()=>{
     setCheck(false)
     handleOverlay()
   }
-  const handleClick1 = ()=>{
+  const [item,setitem] = useState()
+  const handleClick1 = (current)=>{
+    setitem(current)
     setCheck(true)
     handleOverlay()
   }
+
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -46,7 +72,6 @@ function Setting({handleOverlay,setting,data1}) {
     const newOffset = dataList&&(event.selected * 10 % dataList.length);
     setItemOffset(newOffset);
   };
-  // console.log(currentItems)
   const handleCancel = ()=>{
     handleOverlay()
   }
@@ -67,6 +92,22 @@ function Setting({handleOverlay,setting,data1}) {
       id:checkPackage+1
     })
   }
+  const handle1 = (name,dateStart,dateEnd,price,combo,status)=>{
+    handleOverlay()
+    set(ref(db,`packageList/${item.id-1}`),{
+      id:item.id,
+      codePackage:"ALT20210501",
+      combo:combo?combo:item.combo,
+      dateEnd:dateEnd?`${dateEnd} 23:00:00`:item.dateEnd,
+      dateStart:dateStart?`${dateStart} 08:00:00`:item.dateStart,
+      namePackage:item.namePackage,
+      price:price?~~price:item.price,
+      status:status=='Đang áp dụng'?1:2
+    })
+  }
+  function formatMoney(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
   return (
     <div className='setting'>
       <div className='setting__container'>
@@ -74,13 +115,22 @@ function Setting({handleOverlay,setting,data1}) {
           setting&&!check&&<UpdatePackage handle={handle} handleCancel={handleCancel}/>
         }
         {
-          setting&&check&&<UpdatePackage handle={handle} handleCancel={handleCancel} event/>
+          setting&&check&&<UpdatePackage handle={handle1} handleCancel={handleCancel} event/>
         }
       <h1>Danh sách gói vé</h1>
         <div className='setting__top'>
           <Search placeholde='Tìm bằng số vé' input='small' />
           <div className='ticketManager__handle'>
-            <Btn text='Xuất file (.csv)'/>
+            {
+              csvReport&&<div className='btn' style={{marginLeft: '10px',borderRadius: '8px'}}>
+                          <CSVLink {...csvReport} className='btn__container'>
+                              <span>
+                                  Xuất file(.CSV)
+                              </span>
+                          </CSVLink>
+                        </div>
+            }
+            
             <Btn text='Thêm gói vé' active='true' handleClick={handleClick}/>
           </div>
         </div>
@@ -108,10 +158,10 @@ function Setting({handleOverlay,setting,data1}) {
                       <td>{current.namePackage}</td>
                       <td>{current.dateStart}</td>
                       <td>{current.dateEnd}</td>
-                      <td>{current.price}.000 VNĐ</td>
-                      <td>{current.combo&&current.combo+".000 VNĐ/4 Vé"}</td>
+                      <td>{formatMoney(~~current.price)}VNĐ</td>
+                      <td>{current.combo&&current.combo==0?"":current.combo&&formatMoney(~~current.combo)+"VNĐ/4 Vé"}</td>
                       <td><Status status={current.status} text={current.status==2?'Tắt':'Đang áp dụng'} dot={current.status==2?dot1:dot} /></td>
-                      <td onClick={handleClick1}><div><img src={edit} ></img><span>Cập nhật</span></div></td>
+                      <td onClick={()=>handleClick1(current)}><div><img src={edit} ></img><span>Cập nhật</span></div></td>
                     </tr>
                   ])
                 }

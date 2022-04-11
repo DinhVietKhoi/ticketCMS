@@ -83,15 +83,24 @@ function UpdatePackage({event,handle,handleCancel}) {
                     <div className='updatePackage__date--group'>
                         <h3>Ngày áp dụng</h3>
                         <div className='updatePackage__date--group--time'>
-                            <Calendar handleGetDayJs={handleGetDayJs}/>
-                            <TimeCLock />
+                            {
+                                !event?<Calendar handleGetDayJs={handleGetDayJs} showDate/>:<Calendar handleGetDayJs={handleGetDayJs} hideDate/>
+                            }
+                            {
+                                !event?<TimeCLock showTime/>:<TimeCLock hideTime/>
+                            }
+
                         </div>
                     </div>
                     <div className='updatePackage__date--group'>
                         <h3>Ngày hết hạn</h3>
                         <div className='updatePackage__date--group--time'>
-                            <Calendar handleGetDayJs={handleGetDayJs1}/>
-                            <TimeCLock />
+                        {
+                                !event?<Calendar handleGetDayJs={handleGetDayJs1} showDate/>:<Calendar handleGetDayJs={handleGetDayJs1} hideDate/>
+                            }
+                            {
+                                !event?<TimeCLock showTime/>:<TimeCLock hideTime/>
+                            }
                         </div>
                     </div>
                 </div>

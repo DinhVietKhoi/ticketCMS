@@ -6,14 +6,14 @@ import calendar from '../assets/fi_calendar.png'
 import calendar1 from '../assets/u_calendar-alt.png'
 import pre from '../assets/Previous.png'
 import next from '../assets/Next.png'
-function Calendar({text,disable,right,handleGetDayJs}) {
+function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek}) {
   const [overLay,setOverlay] = useState(false)
   const [checked,setChecked] = useState(true)
   const [check,setCheck] = useState(false)
   const [dayObj,setDayObj] = useState(dayjs())
   const [month,setMonth] = useState('')
-  const [month1,setMonth1] = useState('')
-
+  const [month1,setMonth1] = useState('dd/mm/yyyy')
+  const [hide,setHide] = useState(true)
   const todayObj = dayjs()
   const [dayACtive,setDayActive] = useState(dayjs().date())
   const [monthACtive,setMonthActive] = useState(dayjs().month())
@@ -21,16 +21,29 @@ function Calendar({text,disable,right,handleGetDayJs}) {
   const handleClick = ()=>{
     setCheck(!check)
     setOverlay(true)
-    handleGetDayJs(dayACtive,monthACtive,yearACtive)
-
+    handleGetDayJs&&handleGetDayJs(dayACtive,monthACtive,yearACtive)
   }
   useEffect(()=>{
     setMonth(dayObj.format(`M, YYYY`))
     setMonth1(dayObj.format(`DD/MM/YYYY`))
-    
   },[dayObj])
-  
-
+  const [date,setDate] = useState()
+  useEffect(()=>{
+    setDate(
+      dayACtive<10&&monthACtive+1<10
+      ?
+      `0${dayACtive}/0${monthACtive+1}/${yearACtive}`
+      :
+      dayACtive<10&&monthACtive+1>=10
+      ?
+      `0${dayACtive}/${monthACtive+1}/${yearACtive}`
+      :
+      dayACtive>=10&&monthACtive+1<10
+      ?
+      `${dayACtive}/0${monthACtive+1}/${yearACtive}`
+      :
+      `${dayACtive}/${monthACtive+1}/${yearACtive}`)
+  },[dayACtive])
   const daysWeek = ['CN','T2','T3','T4','T5','T6','T7']
   const daysInMonth = dayObj.daysInMonth()
   const handlePrev = () => {
@@ -74,6 +87,7 @@ function Calendar({text,disable,right,handleGetDayJs}) {
 //     console.log(dateArr[i])
 // }
   const handleGetDay = (i) =>{
+    setHide(false)
     i>=10?setMonth1(dayObj.format(`${i}/MM/YYYY`)):setMonth1(dayObj.format(`0${i}/MM/YYYY`))
     setMonthActive(dayObj.format(`M`)-1)
     setYearActive(dayObj.format(`YYYY`))
@@ -86,7 +100,7 @@ function Calendar({text,disable,right,handleGetDayJs}) {
       }
       {
         disable&&<div className='calendar__btn' style={{background: '#E0E0E0', opacity: '1'}} >
-        {<span>Tháng {month}</span>}
+        {<span>{hideDate&&hide?'dd/mm/yy':hideDate&&!hide?date:showDate?date:`Tháng ${month}`}</span>}
         {
           <img src={!disable?calendar:calendar1}></img>
         }
@@ -95,7 +109,7 @@ function Calendar({text,disable,right,handleGetDayJs}) {
       }
       {
         !disable&&<div className='calendar__btn' style={{color:'#A5A8B1'}} onClick={handleClick}>
-        {<span>Tháng {month}</span>}
+        {<span>{hideDate&&hide?'dd/mm/yy':hideDate&&!hide?date:showDate?date:`Tháng ${month}`}</span>}
         {
           <img src={!disable?calendar:calendar1}></img>
         }
@@ -111,7 +125,8 @@ function Calendar({text,disable,right,handleGetDayJs}) {
             {<span className='calendar__month-current--text'>Tháng {month}</span>}
             <span  className='calendar__month-current--btn' onClick={handleNext}></span>
           </div>
-          <div className='calendar__changeType'>
+          {
+            forWeek&&<div className='calendar__changeType'>
             <div className='calendar__changeType-group'>
               <input type='radio' checked={checked&&'checked'} onChange={()=>setChecked(true)}></input>
               <span>Theo ngày</span>
@@ -121,6 +136,8 @@ function Calendar({text,disable,right,handleGetDayJs}) {
               <span>Theo tuần</span>
             </div>
           </div>
+          }
+          
           <div className='calendar__days-week'>
             {
               daysWeek.map(dw=>[

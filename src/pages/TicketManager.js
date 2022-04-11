@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { CSVLink } from "react-csv";
 import dayjs, { Dayjs } from 'dayjs'
 import { ref, set, getDatabase, onValue} from 'firebase/database'
 import db  from '../firebase'
@@ -25,17 +26,18 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
       i===1&&setDataList(data[1])
     })
   },[data])
+  
   const [checkIndex,setCheckindex] = useState()
   const [radio,setRadio] = useState(true)
-  const [radio1,setRadio1] = useState()
-  const [radio2,setRadio2] = useState()
-  const [radio3,setRadio3] = useState()
+  const [radio1,setRadio1] = useState(false)
+  const [radio2,setRadio2] = useState(false)
+  const [radio3,setRadio3] = useState(false)
   const [checkBox,setCheckbox] = useState(true)
-  const [checkBox1,setCheckbox1] = useState()
-  const [checkBox2,setCheckbox2] = useState()
-  const [checkBox3,setCheckbox3] = useState()
-  const [checkBox4,setCheckbox4] = useState()
-  const [checkBox5,setCheckbox5] = useState()
+  const [checkBox1,setCheckbox1] = useState(false)
+  const [checkBox2,setCheckbox2] = useState(false)
+  const [checkBox3,setCheckbox3] = useState(false)
+  const [checkBox4,setCheckbox4] = useState(false)
+  const [checkBox5,setCheckbox5] = useState(false)
   const [check,setCheck] = useState(true)
   const [className,setClassname] = useState('ticketManager__type--active')
   const [className1,setClassname1] = useState('')
@@ -56,8 +58,46 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
       i===0&&setDataList(data[0])
     })
   }
+  const [dateEnd,setDateEnd] = useState(dayObj.format(`YYYY/MM/DD`))
+  const [dateStart,setDateStart] = useState(dayObj.format(`YYYY/MM/DD`))
+  useEffect(()=>{
+    setDateEnd(dayObj.format(`YYYY/MM/DD`))
+    setDateStart(dayObj.format(`YYYY/MM/DD`))
+  },[filter])
+  const [filterDate,setFilterDate] = useState(false)
+  const handleDayStart = (dayACtive,monthACtive,yearACtive)=>{
+        setFilterDate(true)
+        dayACtive<10&&(monthACtive+1)<10
+        ?
+        setDateStart(`${yearACtive}/0${monthACtive+1}/0${dayACtive}`)
+        :
+        dayACtive<10&&(monthACtive+1)>=10
+        ?
+        setDateStart(`${yearACtive}/${monthACtive+1}/0${dayACtive}`)
+        :
+        dayACtive>=10&&(monthACtive+1)<10
+        ?
+        setDateStart(`${yearACtive}/0${monthACtive+1}/${dayACtive}`)
+        :
+        setDateStart(`${yearACtive}/${monthACtive+1}/${dayACtive}`)
+  }
+  const handleDayEnd = (dayACtive,monthACtive,yearACtive)=>{
+        setFilterDate(true)
+        dayACtive<10&&(monthACtive+1)<10
+        ?
+        setDateEnd(`${yearACtive}/0${monthACtive+1}/0${dayACtive}`)
+        :
+        dayACtive<10&&(monthACtive+1)>=10
+        ?
+        setDateEnd(`${yearACtive}/${monthACtive+1}/0${dayACtive}`)
+        :
+        dayACtive>=10&&(monthACtive+1)<10
+        ?
+        setDateEnd(`${yearACtive}/0${monthACtive+1}/${dayACtive}`)
+        :
+        setDateEnd(`${yearACtive}/${monthACtive+1}/${dayACtive}`)
+  }
   const handFilter = ()=>{
-    // checkBox&&radio&&data&&setDataList(data[1])
     if(check){
       let dataa = []
       if(radio3===true){
@@ -79,7 +119,66 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
       checkBox3&&arr.push(3)
       checkBox4&&arr.push(4)
       checkBox5&&arr.push(5)
-      // console.log(arr)
+      const dataaa = [];
+      dataa.map(l=>{
+        arr.map(arr=>{
+          if(arr===l.gateCheck){
+            dataaa.push(l)
+          } 
+        })
+      })
+      let startDate = new Date(dateStart); 
+      let endDate = new Date(dateEnd); 
+      let getDateArray = function(start, end) {
+          var arr = [];
+          var dt = new Date(start);
+          while (dt <= end) {
+              arr.push(new Date(dt));
+              dt.setDate(dt.getDate() + 1);
+          }
+          return arr;
+      }
+      let dateArr = getDateArray(startDate, endDate);
+      let dateArrFormat = []
+      dateArr.map(da=>{
+        let date = da.getDate()<10?`0${da.getDate()}`:`${da.getDate()}`
+        let month = da.getMonth()+1<10?`0${da.getMonth()+1}`:`${da.getMonth()+1}`
+        dateArrFormat.push(`${date}/${month}/${da.getFullYear()}`)
+      })
+      let dataFinish = []
+      dataaa.map(dt=>{
+        dateArrFormat.map(dtt=>{
+          if(dtt===dt.dateUse){
+            dataFinish.push(dt)
+          }
+        })
+      })
+      // console.log()
+      filterDate?setDataList(dataFinish):setDataList(dataaa)
+      handleOverlay()
+      setFilterDate(false)
+    }
+    else if(!check){
+      let dataa = []
+      if(radio3===true){
+        dataa = data&&data[0].filter(f=>f.Status === "HH")
+      }
+      else if(radio2===true){
+        dataa = data&&data[0].filter(f=>f.Status === "CSD")
+      }
+      else if(radio1===true){
+        dataa = data&&data[0].filter(f=>f.Status === "DSD")
+      }
+      else if(radio===true){
+        dataa = data&&data[0].filter(f=>f.Status === "DSD"||f.Status === "CSD"||f.Status === "HH")
+      }
+      let arr = []
+      checkBox&&arr.push(1,2,3,4,5)
+      checkBox1&&arr.push(1)
+      checkBox2&&arr.push(2)
+      checkBox3&&arr.push(3)
+      checkBox4&&arr.push(4)
+      checkBox5&&arr.push(5)
       const dataaa = [];
       dataa.map(l=>{
         arr.map(arr=>{
@@ -90,39 +189,6 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
       })
       setDataList(dataaa)
       handleOverlay()
-    }
-    else if(!check){
-      let dataa = []
-    if(radio3===true){
-       dataa = data&&data[0].filter(f=>f.Status === "HH")
-    }
-    else if(radio2===true){
-       dataa = data&&data[0].filter(f=>f.Status === "CSD")
-    }
-    else if(radio1===true){
-       dataa = data&&data[0].filter(f=>f.Status === "DSD")
-    }
-    else if(radio===true){
-      dataa = data&&data[0].filter(f=>f.Status === "DSD"||f.Status === "CSD"||f.Status === "HH")
-    }
-    let arr = []
-    checkBox&&arr.push(1,2,3,4,5)
-    checkBox1&&arr.push(1)
-    checkBox2&&arr.push(2)
-    checkBox3&&arr.push(3)
-    checkBox4&&arr.push(4)
-    checkBox5&&arr.push(5)
-    // console.log(arr)
-    const dataaa = [];
-    dataa.map(l=>{
-      arr.map(arr=>{
-        if(arr===l.gateCheck){
-          dataaa.push(l)
-        } 
-      })
-    })
-    setDataList(dataaa)
-    handleOverlay()
     }
   }
   const handleRadio = ()=>{
@@ -177,6 +243,70 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
     setCheckbox(false)
     setCheckbox5(!checkBox5)
   }
+  const [csvData,setCsvData] = useState([])
+  const [csvReport,setCsvReport] = useState()
+  const headerCsv = [
+    { label: "STT", key: "stt" },
+    { label: "Booking Code", key: "bookingcode" },
+    { label: "Số vé", key: "sove" },
+    { label: "Tình trạng sử dụng", key: "tinhtrangsudung" },
+    { label: "Ngày sử dụng", key: "ngaysudung" },
+    { label: "Ngày xuất vé", key: "ngayxuatve" },
+    { label: "Cổng check - in", key: "congcheckin" }
+  ]
+  const headerCsv1 = [
+    { label: "STT", key: "stt" },
+    { label: "Booking Code", key: "bookingcode" },
+    { label: "Số vé", key: "sove" },
+    { label: "Tên sự kiện", key: "tensukien" },
+    { label: "Tình trạng sử dụng", key: "tinhtrangsudung" },
+    { label: "Ngày sử dụng", key: "ngaysudung" },
+    { label: "Ngày xuất vé", key: "ngayxuatve" },
+    { label: "Cổng check - in", key: "congcheckin" }
+  ]
+  useEffect(()=>{
+    setCsvData([])
+    check&&dataList&&dataList.map(data=>{
+      setCsvData(pre  => 
+        [
+          ...pre,
+          {
+            "stt":`${data.id}`,
+            "bookingcode":data.bookingCode,
+            "sove":data.ticketNumber,
+            "tinhtrangsudung":data.Status=="CSD"?'Chưa sử dụng':data.Status=='DSD'?"Đã sử dụng":"Hết hạn",
+            "ngaysudung":data.dateUse,
+            "ngayxuatve":data.dateSell,
+            "congcheckin":`Cổng ${data.gateCheck}`}])
+          
+    })
+    !check&&dataList&&dataList.map(data=>{
+      setCsvData(pre  => 
+        [
+          ...pre,
+          {
+            "stt":`${data.id}`,
+            "bookingcode":data.bookingCode,
+            "sove":data.ticketNumber,
+            "tensukien":data.eventName,
+            "tinhtrangsudung":data.Status=="CSD"?'Chưa sử dụng':data.Status=='DSD'?"Đã sử dụng":"Hết hạn",
+            "ngaysudung":data.dateUse,
+            "ngayxuatve":data.dateSell,
+            "congcheckin":`Cổng ${data.gateCheck}`}])
+    })
+  },[dataList])
+  useEffect(()=>{
+    check&&setCsvReport({
+      data: csvData,
+      headers: headerCsv,
+      filename: 'Danhsachdoisoatve.csv'
+    })
+    !check&&setCsvReport({
+      data: csvData,
+      headers: headerCsv1,
+      filename: 'Danhsachdoisoatve.csv'
+    })
+  },[csvData])
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -211,6 +341,7 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
     setdaate(`${dayACtive}/${monthACtive+1}/${yearACtive}`)
   }
   const handleUpdate = (e)=>{
+    setdaate(dayObj.format(`DD/MM/YYYY`))
     handleOverlay1()
     setUpdate(e)
   }
@@ -242,9 +373,16 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
     handleOverlay1()
   }
   const handleChange = (value)=>{
-    const  dataa = data&&data[1].filter(f=>f.ticketNumber.startsWith(value)===true)
-    setDataList(dataa)
+    if(check){
+      const  dataa = data&&data[1].filter(f=>f.ticketNumber.startsWith(value)===true)
+      setDataList(dataa)
+    }
+    else {
+      const  dataa = data&&data[0].filter(f=>f.ticketNumber.startsWith(value)===true)
+      setDataList(dataa)
+    }
   }
+  
   return (
     <div className='ticketManager'>
       <div className='ticketManager__container'>
@@ -257,7 +395,15 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
           <Search placeholde='Tìm bằng số vé' input='small' onChange={handleChange}/>
           <div className='ticketManager__handle'>
             <Btn icon={arrange} text='Lọc vé' handleClick={handleOverlay}/>
-            <Btn text='Xuất file (.csv)'/>
+            {
+              csvReport&&<div className='btn' style={{marginLeft: '10px',borderRadius: '8px'}}>
+                          <CSVLink {...csvReport} className='btn__container'>
+                              <span>
+                                  Xuất file(.CSV)
+                              </span>
+                          </CSVLink>
+                        </div>
+            }
           </div>
         </div>
         <div className='ticketManager__bottom'>
@@ -333,11 +479,11 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
           <div className='ticketManager__filter-date'>
               <div className='ticketManager__filter-date--group'>
                 <span>Từ ngày</span>
-                <Calendar text='Tháng 4, 2021' right/>
+                <Calendar handleGetDayJs={handleDayStart} showDate right/>
               </div>
               <div className='ticketManager__filter-date--group'>
                 <h3>Đến ngày</h3>
-                <Calendar text='Tháng 4, 2021'/>
+                <Calendar handleGetDayJs={handleDayEnd} showDate/>
               </div>
           </div>
           <div className='ticketManager__filter-status'>
