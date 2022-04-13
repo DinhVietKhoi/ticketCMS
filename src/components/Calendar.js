@@ -7,6 +7,14 @@ import calendar1 from '../assets/u_calendar-alt.png'
 import pre from '../assets/Previous.png'
 import next from '../assets/Next.png'
 function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek}) {
+  const [firstDate,setFirstDate] = useState()
+  const [lastDate,setLastDate] = useState()
+  const [t2,setT2] = useState()
+  const [t3,setT3] = useState()
+  const [t4,setT4] = useState()
+  const [t5,setT5] = useState()
+  const [t6,setT6] = useState()
+  const [filterWeek,setFilterWeek] = useState(false)
   const [overLay,setOverlay] = useState(false)
   const [checked,setChecked] = useState(true)
   const [check,setCheck] = useState(false)
@@ -23,6 +31,34 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek})
     setOverlay(true)
     handleGetDayJs&&handleGetDayJs(dayACtive,monthACtive,yearACtive)
   }
+  const handleChecked = ()=>{
+    setChecked(true)
+  }
+  const handleChecked1 = ()=>{
+    setChecked(false)
+  }
+  useEffect(()=>{
+    if(checked==false){
+      const current = new Date(`${yearACtive}/${monthACtive+1}/${dayACtive}`);
+      const check = current.getDate() - current.getDay();
+        const cn = new Date(current.setDate(check));
+        const t2 = new Date(current.setDate(check +1));
+        const t3 = new Date(current.setDate(check +2));
+        const t4 = new Date(current.setDate(check +3));
+        const t5 = new Date(current.setDate(check +4));
+        const t6 = new Date(current.setDate(check +5));
+        const t7 = new Date(current.setDate(check +6));
+        if(cn.getMonth()==monthACtive&&cn.getFullYear()==yearACtive&&t7.getMonth()==monthACtive&&t7.getFullYear()==yearACtive){
+          setFirstDate(cn)
+          setLastDate(t7)
+          setT2(t2)
+          setT3(t3)
+          setT4(t4)
+          setT5(t5)
+          setT6(t6)
+        }
+    }
+  },[dayACtive,checked])
   useEffect(()=>{
     setMonth(dayObj.format(`M, YYYY`))
     setMonth1(dayObj.format(`DD/MM/YYYY`))
@@ -128,11 +164,11 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek})
           {
             forWeek&&<div className='calendar__changeType'>
             <div className='calendar__changeType-group'>
-              <input type='radio' checked={checked&&'checked'} onChange={()=>setChecked(true)}></input>
+              <input type='radio' checked={checked&&'checked'} onChange={()=>handleChecked()}></input>
               <span>Theo ngày</span>
             </div>
             <div className='calendar__changeType-group'>
-              <input type='radio' checked={!checked&&'checked'} onChange={()=>setChecked(false)}></input>
+              <input type='radio' checked={!checked&&'checked'} onChange={()=>handleChecked1()}></input>
               <span>Theo tuần</span>
             </div>
           </div>
@@ -158,17 +194,64 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek})
             {
               range(daysInMonth).map(i => (
                 <div onClick={handleGetDay.bind(this,i+1)} key={i} className={`calendar__days-month--text ${
-                  i + 1 === dayACtive &&
-                  thisMonth === ~~(monthACtive) &&
-                  thisYear === ~~(yearACtive)
-                    ? "calendar__days-month--text--active"
-                    : ""
+                    i + 1 === dayACtive &&
+                    thisMonth === ~~(monthACtive) &&
+                    thisYear === ~~(yearACtive) && checked
+                    ? 
+                    "calendar__days-month--text--active"
+                    :
+                    lastDate&&i + 1 === lastDate.getDate() &&
+                    thisMonth === lastDate.getMonth() &&
+                    thisYear === lastDate.getFullYear() && !checked 
+                    ?
+                    "calendar__days-month--text--active"
+                    :
+                    firstDate&&i + 1 === firstDate.getDate() &&
+                    thisMonth === firstDate.getMonth() &&
+                    thisYear === firstDate.getFullYear() && !checked 
+                    ?
+                    "calendar__days-month--text--active"
+                    :
+                    t2&&i + 1 === t2.getDate() &&
+                    thisMonth === t2.getMonth() &&
+                    thisYear === t2.getFullYear() && !checked 
+                    ?
+                    "calendar__days-month--text--activeee"
+                    :
+                    t3&&i + 1 === t3.getDate() &&
+                    thisMonth === t3.getMonth() &&
+                    thisYear === t3.getFullYear() && !checked 
+                    ?
+                    "calendar__days-month--text--activeee"
+                    :
+                    t4&&i + 1 === t4.getDate() &&
+                    thisMonth === t4.getMonth() &&
+                    thisYear === t4.getFullYear() && !checked 
+                    ?
+                    "calendar__days-month--text--activeee"
+                    :
+                    t5&&i + 1 === t5.getDate() &&
+                    thisMonth === t5.getMonth() &&
+                    thisYear === t5.getFullYear() && !checked 
+                    ?
+                    "calendar__days-month--text--activeee"
+                    :
+                    t6&&i + 1 === t6.getDate() &&
+                    thisMonth === t6.getMonth() &&
+                    thisYear === t6.getFullYear() && !checked 
+                    ?
+                    "calendar__days-month--text--activeee"
+                    :
+                    ""
                 }`}>
                 <span className={'calendar__days-month--textt'}
                 // style={i===7?{color:'#FFFFFF'}:{color:'#23221F'}}
                 >{i+1}</span>
                 {
                   <div className='calendar__days-month--text--activee'></div>
+                }
+                {
+                  <div className='calendar__days-month--text--activeeee'></div>
                 }
               </div>
               ))

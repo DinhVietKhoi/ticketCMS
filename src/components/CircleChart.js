@@ -5,18 +5,20 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'react-chartjs-2';
 import { Bar, Doughnut, Pie } from 'react-chartjs-2';
 import '../sass/circleChart.scss'
-function CircleChart({dataa}) {
+function CircleChart({dataa,firstDay,lastday}) {
   charts.register(ChartDataLabels);
   const [lengthCSD,setLengthCSD] = useState()
   const [lengthDSD,setLengthDSD] = useState()
   const [lengthCSD1,setLengthCSD1] = useState()
   const [lengthDSD1,setLengthDSD1] = useState()
-  const [dataLength,setDataLength] = useState()
-  const [dataLength1,setDataLength1] = useState()
+  const [dataLength,setDataLength] = useState([])
+  const [dataLength1,setDataLength1] = useState([])
   
   useEffect(()=>{
     dataa&&dataa.map((l,i)=>{
-      i===0&&setDataLength(dataa[1])
+      i===0&&dataa[1].filter(l=>{
+        setDataLength(dataa[1])
+      })
       i===1&&setDataLength1(dataa[0])
     })
   },[dataa])

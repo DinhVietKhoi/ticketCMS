@@ -4,6 +4,7 @@ import CircleChart from '../components/CircleChart'
 import LineChart from '../components/LineChart'
 import '../sass/home.scss'
 function Home({data}) {
+  const [moneyWeek,setMoneyWeek] = useState()
   const [money,setMoney] = useState()
   useEffect(()=>{
     const money = data&&((data[0].length * 90000) + (data[1].length * 20000))
@@ -23,7 +24,7 @@ function Home({data}) {
           </div>
         </div>
         <div className='home__total'>
-          <span className='home__total-sp'>Tổng doanh thu</span>
+          <span className='home__total-sp'>Tổng doanh thu theo tuần</span>
           <strong className='home__total-st'>{money&&money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}<span className='home__total-sp1'>đồng</span></strong>
         </div>
         <div className='home__pie'>

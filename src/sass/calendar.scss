@@ -154,7 +154,21 @@
                     // background: rgba(0, 151, 19, 0.6);
                     border-radius: 100%;
             }
+            &--activeee > .calendar__days-month--text--activeeee{
+                    position: absolute ;
+                    top: -5px;
+                    left: -26px;
+                    width: 90px;
+                    max-width: 90px;
+                    height: 32px;
+                    max-height: 32px;
+                    background-color: #FFD2A8;
+            }
+
             &--active > .calendar__days-month--textt{
+                color:#FFFFFF;
+            }
+            &--activeee > .calendar__days-month--textt{
                 color:#FFFFFF;
             }
         }

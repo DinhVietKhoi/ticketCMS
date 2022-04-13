@@ -22,8 +22,12 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
   const [dayObj,setDayObj] = useState(dayjs())
 
   useEffect(()=>{
-    data&&data.map((l,i)=>{
+    check&&data?data.map((l,i)=>{
       i===1&&setDataList(data[1])
+    })
+    :
+    data.map((l,i)=>{
+      i===1&&setDataList(data[0])
     })
   },[data])
   
