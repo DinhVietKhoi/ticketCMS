@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import 'chart.js/auto';
+import dayjs, { Dayjs } from 'dayjs'
 import {Chart as charts} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'react-chartjs-2';
 import { Bar, Doughnut, Pie } from 'react-chartjs-2';
 import '../sass/circleChart.scss'
-function CircleChart({dataa,firstDay,lastday}) {
+function CircleChart({dataa,firstDate,lastDate}) {
   charts.register(ChartDataLabels);
   const [lengthCSD,setLengthCSD] = useState()
   const [lengthDSD,setLengthDSD] = useState()
@@ -13,15 +14,55 @@ function CircleChart({dataa,firstDay,lastday}) {
   const [lengthDSD1,setLengthDSD1] = useState()
   const [dataLength,setDataLength] = useState([])
   const [dataLength1,setDataLength1] = useState([])
-  
+
   useEffect(()=>{
-    dataa&&dataa.map((l,i)=>{
-      i===0&&dataa[1].filter(l=>{
-        setDataLength(dataa[1])
+    let startDate = new Date(firstDate); 
+    let endDate = new Date(lastDate); 
+    let getDateArray = function(start, end) {
+        var arr = [];
+        var dt = new Date(start);
+        while (dt <= end) {
+            arr.push(new Date(dt));
+            dt.setDate(dt.getDate() + 1);
+        }
+        return arr;
+    }
+    let dateArr = getDateArray(startDate, endDate);
+    let dateArrFormat = []
+      dateArr.map(da=>{
+        let date = da.getDate()<10?`0${da.getDate()}`:`${da.getDate()}`
+        let month = da.getMonth()+1<10?`0${da.getMonth()+1}`:`${da.getMonth()+1}`
+        dateArrFormat.push(`${date}/${month}/${da.getFullYear()}`)
       })
-      i===1&&setDataLength1(dataa[0])
+      let dataFinish = []
+      let dataFinish1 = []
+    dataa&&dataa.map((l,i)=>{
+      i===0&&
+        l.map(dt=>{
+          console.log(l)
+
+          dateArrFormat.map(dtt=>{
+            if(dtt===dt.dateUse){
+              dataFinish.push(dt)
+            }
+          })
+        })
+      i===1&&
+        l.map(dt=>{
+          dateArrFormat.map(dtt=>{
+            if(dtt===dt.dateUse){
+              dataFinish1.push(dt)
+            }
+          })
+        })
+
     })
-  },[dataa])
+    setDataLength(dataFinish1)
+    setDataLength1(dataFinish)
+  },[dataa,firstDate,lastDate])
+
+
+
   useEffect(()=>{
     const CSD = dataLength&&dataLength.filter(l=>l.Status === 'CSD')
     const DSD = dataLength&&dataLength.filter(l=>l.Status === 'DSD')
@@ -32,6 +73,10 @@ function CircleChart({dataa,firstDay,lastday}) {
     CSD1&&setLengthCSD1(CSD1.length)
     DSD1&&setLengthDSD1(DSD1.length)
   },[dataLength,dataLength1])
+
+
+
+
   let colorHex = ["#FF8A48","#4F75FF"];
     const data =
       {

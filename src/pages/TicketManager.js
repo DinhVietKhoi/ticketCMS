@@ -22,11 +22,11 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
   const [dayObj,setDayObj] = useState(dayjs())
 
   useEffect(()=>{
-    check&&data?data.map((l,i)=>{
+    check&&data&&data.map((l,i)=>{
       i===1&&setDataList(data[1])
     })
-    :
-    data.map((l,i)=>{
+    
+    !check&&data&&data.map((l,i)=>{
       i===1&&setDataList(data[0])
     })
   },[data])
@@ -191,7 +191,36 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
           } 
         })
       })
-      setDataList(dataaa)
+      let startDate = new Date(dateStart); 
+      let endDate = new Date(dateEnd); 
+      let getDateArray = function(start, end) {
+          var arr = [];
+          var dt = new Date(start);
+          while (dt <= end) {
+              arr.push(new Date(dt));
+              dt.setDate(dt.getDate() + 1);
+          }
+          return arr;
+      }
+      let dateArr = getDateArray(startDate, endDate);
+      let dateArrFormat = []
+      dateArr.map(da=>{
+        let date = da.getDate()<10?`0${da.getDate()}`:`${da.getDate()}`
+        let month = da.getMonth()+1<10?`0${da.getMonth()+1}`:`${da.getMonth()+1}`
+        dateArrFormat.push(`${date}/${month}/${da.getFullYear()}`)
+      })
+      let dataFinish = []
+      dataaa.map(dt=>{
+        dateArrFormat.map(dtt=>{
+          if(dtt===dt.dateUse){
+            dataFinish.push(dt)
+          }
+        })
+      })
+      // console.log()
+      filterDate?setDataList(dataFinish):setDataList(dataaa)
+      handleOverlay()
+      setFilterDate(false)
       handleOverlay()
     }
   }

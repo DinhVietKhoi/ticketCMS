@@ -1,3 +1,4 @@
+import dayjs, { Dayjs } from 'dayjs'
 import React, { useEffect, useState } from 'react'
 import Calendar from '../components/Calendar'
 import CircleChart from '../components/CircleChart'
@@ -6,10 +7,25 @@ import '../sass/home.scss'
 function Home({data}) {
   const [moneyWeek,setMoneyWeek] = useState()
   const [money,setMoney] = useState()
+  const [dateCurrent,setDateCurrent] = useState(dayjs().format(`YYYY/MM/DD`))
+  const [firstDate,setFirstDate] = useState()
+  const [lastDate,setLasteDate] = useState()
+  useEffect(()=>{
+    const date = new Date(dateCurrent);
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    setFirstDate(firstDay);
+    setLasteDate(lastDay)
+  },[dateCurrent])
+  console.log(lastDate)
+  console.log(firstDate)
   useEffect(()=>{
     const money = data&&((data[0].length * 90000) + (data[1].length * 20000))
     money&&setMoney(money)
   },[data])
+  const handleGetDayJs = (dayACtive,monthACtive,yearACtive)=>{
+    setDateCurrent(`${yearACtive}/${monthACtive+1}/${dayACtive}`)
+  }
   return (
     <div className='home'>
       <div className='home__container'>
@@ -29,9 +45,9 @@ function Home({data}) {
         </div>
         <div className='home__pie'>
           <div className='home__pie-top'>
-            <Calendar forWeek />
+            <Calendar forWeek handleGetDayJs={handleGetDayJs}/>
             <div className='home__pie-bottom'>
-              <CircleChart dataa={data}/>
+              <CircleChart dataa={data} firstDate={firstDate} lastDate={lastDate}/>
             </div>
             {/* <div className='home__pie-bottom'>
               <CircleChart />
