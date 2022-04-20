@@ -39,7 +39,6 @@ function CircleChart({dataa,firstDate,lastDate}) {
     dataa&&dataa.map((l,i)=>{
       i===0&&
         l.map(dt=>{
-          console.log(l)
 
           dateArrFormat.map(dtt=>{
             if(dtt===dt.dateUse){

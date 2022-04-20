@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import range from "lodash-es/range"
 import '../sass/calendar.scss'
@@ -6,14 +6,14 @@ import calendar from '../assets/fi_calendar.png'
 import calendar1 from '../assets/u_calendar-alt.png'
 import pre from '../assets/Previous.png'
 import next from '../assets/Next.png'
-function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek}) {
-  const [firstDate,setFirstDate] = useState()
-  const [lastDate,setLastDate] = useState()
-  const [t2,setT2] = useState()
-  const [t3,setT3] = useState()
-  const [t4,setT4] = useState()
-  const [t5,setT5] = useState()
-  const [t6,setT6] = useState()
+function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek,forWeekTrue}) {
+  const [firstDate,setFirstDate] = useState('')
+  const [lastDate,setLastDate] = useState('')
+  const [t2,setT2] = useState('')
+  const [t3,setT3] = useState('')
+  const [t4,setT4] = useState('')
+  const [t5,setT5] = useState('')
+  const [t6,setT6] = useState('')
   const [filterWeek,setFilterWeek] = useState(false)
   const [overLay,setOverlay] = useState(false)
   const [checked,setChecked] = useState(true)
@@ -26,17 +26,18 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek})
   const [dayACtive,setDayActive] = useState(dayjs().date())
   const [monthACtive,setMonthActive] = useState(dayjs().month())
   const [yearACtive,setYearActive] = useState(dayjs().year())
-  const handleClick = ()=>{
-    setCheck(!check)
-    setOverlay(true)
-    handleGetDayJs&&handleGetDayJs(dayACtive,monthACtive,yearACtive)
-  }
+  const [dayy,setDayy] = useState()
+  const [dayy1,setDayy1] = useState()
+
+  const [arr,setArr] = useState('')
+  
   const handleChecked = ()=>{
     setChecked(true)
   }
   const handleChecked1 = ()=>{
     setChecked(false)
   }
+  const [dem,setDem] = useState(0);
   useEffect(()=>{
     if(checked==false){
       const current = new Date(`${yearACtive}/${monthACtive+1}/${dayACtive}`);
@@ -56,9 +57,38 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek})
           setT4(t4)
           setT5(t5)
           setT6(t6)
-        }
+          dem===0&&handleGetDayJs&&handleGetDayJs(dayACtive,monthACtive,yearACtive,cn,t7,t2,t3,t4,t5,t6,arr)
+          setDem(1)
+      }
+    }
+    else {
+          setFirstDate('')
+          setLastDate('')
+          setT2('')
+          setT3('')
+          setT4('')
+          setT5('')
+          setT6('')
     }
   },[dayACtive,checked])
+  useEffect(()=>{
+    if(checked){
+      setArr('')
+      const dayy=document.getElementsByClassName("calendar__days-month--textt");
+      const dayy1 = [...dayy]
+      dayy1.map(l=>{
+        setArr(pre=>[...pre,l.innerText])
+      })
+    }
+    else{
+      setArr('')
+    }
+  },[month1,check,checked])
+  const handleClick = ()=>{
+    setCheck(!check)
+    setOverlay(true)
+    handleGetDayJs&&handleGetDayJs(dayACtive,monthACtive,yearACtive,firstDate,lastDate,t2,t3,t4,t5,t6,arr)
+  }
   useEffect(()=>{
     setMonth(dayObj.format(`M, YYYY`))
     setMonth1(dayObj.format(`DD/MM/YYYY`))
@@ -129,6 +159,15 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek})
     setYearActive(dayObj.format(`YYYY`))
     setDayActive(i)
   }
+  useEffect(()=>{
+    handleGetDayJs&&handleGetDayJs(dayACtive,monthACtive,yearACtive,firstDate,lastDate,t2,t3,t4,t5,t6,arr)
+    if(forWeekTrue){
+      setChecked(false)
+    }
+    else{
+      setChecked(true)
+    }
+  },[])
   return (
     <div className="calendar" >
       {
@@ -181,11 +220,11 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek})
               ])
             }
           </div>
-          <div className='calendar__days-month'>
+          <div  className='calendar__days-month'>
             {
               range(weekDayOf1).map((i) => (
                 <div key={i} className='calendar__days-month--text'>
-                  <span style={{opacity: '0.3'}}>
+                  <span style={{opacity: '0.3'}} className='calendar__days-month--textt'>
                     {dayObjOf1.subtract(weekDayOf1 - i, "day").date()}
                   </span>
                 </div>
@@ -244,7 +283,7 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek})
                     :
                     ""
                 }`}>
-                <span className={'calendar__days-month--textt'}
+                <span  className={'calendar__days-month--textt'}
                 // style={i===7?{color:'#FFFFFF'}:{color:'#23221F'}}
                 >{i+1}</span>
                 {
@@ -259,7 +298,7 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek})
             {
               range(6 - weekDayOfLast).map(i => (
                 <div  key={i} className='calendar__days-month--text' >
-                  <span  style={{opacity: '0.3'}}>{dayObjOfLast.add(i + 1 , "day").date()}</span>
+                  <span  style={{opacity: '0.3'}} className="calendar__days-month--textt">{dayObjOfLast.add(i + 1 , "day").date()}</span>
                 </div>
               ))
             }
