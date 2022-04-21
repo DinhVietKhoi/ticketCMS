@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import '../sass/lineChart.scss'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-function LineChart({data1,firstDate1, lastDate1, t2, t3, t4, t5 ,t6}) {
+function LineChart({data1,day,firstDate1, lastDate1, t2, t3, t4, t5 ,t6}) {
    const [money,setMoney] = useState(0)
    const [money1,setMoney1] = useState(0)
    const [money2,setMoney2] = useState(0)
@@ -16,7 +16,16 @@ function LineChart({data1,firstDate1, lastDate1, t2, t3, t4, t5 ,t6}) {
    const [name4,setName4] = useState('')
    const [name5,setName5] = useState('')
    const [name6,setName6] = useState('')
+   const [data,setData] = useState()
+
     useEffect(()=>{
+            let dem2=0;
+            let dem3=0;
+            let dem4=0;
+            let dem5=0;
+            let dem6=0;
+            let dem7=0;
+            let demcn=0;
         setMoney6(0)
         setMoney5(0)
         setMoney(0)
@@ -24,27 +33,62 @@ function LineChart({data1,firstDate1, lastDate1, t2, t3, t4, t5 ,t6}) {
         setMoney2(0)
         setMoney3(0)
         setMoney4(0)
-        if(typeof(firstDate)=='string'){
-            setMoney6(0)
-            setMoney5(0)
-            setMoney(0)
-            setMoney1(0)
-            setMoney2(0)
-            setMoney3(0)
-            setMoney4(0)
+        if(typeof(firstDate1)===''){
+            console.log(1)
         }
         else {
             
             data1&&data1.map(dt=>{
                 dt.map(l=>{
-                    l.dateUse===firstDate1&&setMoney6(pre=>pre+90000)
-                    l.dateUse===lastDate1&&setMoney5(pre=>pre+90000)
-                    l.dateUse===t2&&setMoney(pre=>pre+90000)
-                    l.dateUse===t3&&setMoney1(pre=>pre+90000)
-                    l.dateUse===t4&&setMoney2(pre=>pre+90000)
-                    l.dateUse===t5&&setMoney3(pre=>pre+90000)
-                    l.dateUse===t6&&setMoney4(pre=>pre+90000)
+                        if(l.dateUse===t2){
+                            console.log(l)
+                            dem2+=90000;
+                        }
+                        if(l.dateUse===t3){
+                            console.log(l)
+
+                            dem3+=90000;
+
+                        }
+                        if(l.dateUse===t4){
+                            console.log(l)
+
+                            dem4+=90000;
+
+                        }
+                        if(l.dateUse===t5){
+                            console.log(l)
+
+                            dem5+=90000;
+
+                        }
+                        if(l.dateUse===t6){
+                            console.log(l)
+
+                            dem6+=90000;
+
+                        }
+                        if(l.dateUse===firstDate1){
+                            console.log(l)
+
+                            demcn+=90000;
+                        }
+                        if(l.dateUse===lastDate1){
+                            console.log(l)
+
+                            dem7+=90000;
+                        }
+                    
+                    
                 })
+                setMoney(dem2)
+                setMoney1(dem3)
+                setMoney2(dem4)
+                setMoney3(dem5)
+                setMoney4(dem6)
+                setMoney6(dem7)
+                setMoney5(demcn)
+
             })
             setName('Thứ 2')
             setName1('Thứ 3')
@@ -53,41 +97,42 @@ function LineChart({data1,firstDate1, lastDate1, t2, t3, t4, t5 ,t6}) {
             setName4('Thứ 6')
             setName5('Thứ 7')
             setName6('Chủ nhật')
-    }
-    },[firstDate1,data1])
-    const [data,setData] = useState()
+        }
+        
+        
+    },[day, firstDate1,data1, lastDate1, t2, t3, t4, t5 ,t6])
     useEffect(()=>{
-        setData([
-            {
-                name: name,
-                uv: money/1000000,
-            },
-            {
-                name: name1,
-                uv: money1/1000000,
-            },
-            {
-                name: name2,
-                uv: money2/1000000,
-            },
-            {
-                name: name3,
-                uv: money3/1000000,
-            },
-            {
-                name: name4,
-                uv: money4/1000000,
-            },
-            {
-                name: name5,
-                uv: money5/1000000,
-            },
-            {
-                name: name6,
-                uv: money6/1000000,
-            },
-        ])
-    },[name,money,firstDate1,data1])
+            setData([
+                {
+                    name: name,
+                    uv: money/1000000,
+                },
+                {
+                    name: name1,
+                    uv: money1/1000000,
+                },
+                {
+                    name: name2,
+                    uv: money2/1000000,
+                },
+                {
+                    name: name3,
+                    uv: money3/1000000,
+                },
+                {
+                    name: name4,
+                    uv: money4/1000000,
+                },
+                {
+                    name: name5,
+                    uv: money5/1000000,
+                },
+                {
+                    name: name6,
+                    uv: money6/1000000,
+                },
+            ])
+    },[name,money,money1,money2,money3,money4,money5,money6])
     return (
         <div className='line-chart'>
             <ResponsiveContainer width={"100%"} height="100%" >

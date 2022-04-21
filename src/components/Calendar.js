@@ -39,6 +39,15 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek,f
   }
   const [dem,setDem] = useState(0);
   useEffect(()=>{
+    handleGetDayJs&&handleGetDayJs(dayACtive,monthACtive,yearACtive,firstDate,lastDate,t2,t3,t4,t5,t6,arr)
+    if(forWeekTrue){
+      setChecked(false)
+    }
+    else{
+      setChecked(true)
+    }
+  },[])
+  useEffect(()=>{
     if(checked==false){
       const current = new Date(`${yearACtive}/${monthACtive+1}/${dayACtive}`);
       const check = current.getDate() - current.getDay();
@@ -159,15 +168,7 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek,f
     setYearActive(dayObj.format(`YYYY`))
     setDayActive(i)
   }
-  useEffect(()=>{
-    handleGetDayJs&&handleGetDayJs(dayACtive,monthACtive,yearACtive,firstDate,lastDate,t2,t3,t4,t5,t6,arr)
-    if(forWeekTrue){
-      setChecked(false)
-    }
-    else{
-      setChecked(true)
-    }
-  },[])
+  
   return (
     <div className="calendar" >
       {

@@ -7,6 +7,7 @@ import '../sass/home.scss'
 function Home({data}) {
   const [firstDate1,setFirstDate1] = useState('')
   const [lastDate1,setLastDate1] = useState('')
+  const [day,setDay] = useState('')
   const [t2,setT2] = useState('')
   const [t3,setT3] = useState('')
   const [t4,setT4] = useState('')
@@ -32,6 +33,7 @@ function Home({data}) {
     setDateCurrent(`${yearACtive}/${monthACtive+1}/${dayACtive}`)
   }
   const handleGetDayJs1 = (dayACtive,monthACtive,yearACtive,firstDate,lastDate,t2,t3,t4,t5,t6,arr)=>{
+    setDay(dayACtive)
     if(typeof(firstDate)=='string'){
       setFirstDate1('')
       setLastDate1('')
@@ -149,6 +151,7 @@ function Home({data}) {
       )
     }
   }
+  // console.log(t3)
   return (
     <div className='home'>
       <div className='home__container'>
@@ -159,7 +162,7 @@ function Home({data}) {
             <Calendar forWeek right handleGetDayJs={handleGetDayJs1} forWeekTrue/>
           </div>
           <div className='home__line-body'>
-            <LineChart data1={data} firstDate1={firstDate1} lastDate1={lastDate1} t2={t2} t3={t3} t4={t4} t5={t5} t6={t6} />
+            <LineChart data1={data} day={day} firstDate1={firstDate1} lastDate1={lastDate1} t2={t2} t3={t3} t4={t4} t5={t5} t6={t6} />
           </div>
         </div>
         <div className='home__total'>
