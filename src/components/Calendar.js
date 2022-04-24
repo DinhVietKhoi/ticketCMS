@@ -39,13 +39,13 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek,f
   }
   const [dem,setDem] = useState(0);
   useEffect(()=>{
-    handleGetDayJs&&handleGetDayJs(dayACtive,monthACtive,yearACtive,firstDate,lastDate,t2,t3,t4,t5,t6,arr)
     if(forWeekTrue){
       setChecked(false)
     }
     else{
       setChecked(true)
     }
+    handleGetDayJs&&handleGetDayJs(dayACtive,monthACtive,yearACtive,firstDate,lastDate,t2,t3,t4,t5,t6,arr)
   },[])
   useEffect(()=>{
     if(checked==false){
@@ -104,6 +104,10 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek,f
   },[dayObj])
   const [date,setDate] = useState()
   useEffect(()=>{
+    // console.log(1)
+    // let arr = document.querySelectorAll(".calendar__days-month--textt")
+    // let arr1 = [...arr]
+    // arr1.map(l=>console.log(l.innerHTML))
     setDate(
       dayACtive<10&&monthACtive+1<10
       ?
@@ -119,6 +123,11 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek,f
       :
       `${dayACtive}/${monthACtive+1}/${yearACtive}`)
   },[dayACtive])
+  useEffect(()=>{
+    let arr = document.querySelectorAll(".calendar__days-month--textt")
+    let arr1 = [...arr]
+    arr1.map(l=>console.log(l.innerHTML))
+  },[])
   const daysWeek = ['CN','T2','T3','T4','T5','T6','T7']
   const daysInMonth = dayObj.daysInMonth()
   const handlePrev = () => {
@@ -168,7 +177,7 @@ function Calendar({text,disable,showDate,hideDate,right,handleGetDayJs,forWeek,f
     setYearActive(dayObj.format(`YYYY`))
     setDayActive(i)
   }
-  
+ 
   return (
     <div className="calendar" >
       {

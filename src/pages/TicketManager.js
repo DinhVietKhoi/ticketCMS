@@ -132,6 +132,7 @@ function TicketManager({handleOverlay,handleOverlay1,filter,data,changeDate}) {
         })
       })
       let startDate = new Date(dateStart); 
+      // console.log('startDate',startDate)
       let endDate = new Date(dateEnd); 
       let getDateArray = function(start, end) {
           var arr = [];

@@ -1,4 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs'
+import range from "lodash-es/range"
 import React, { useEffect, useState } from 'react'
 import Calendar from '../components/Calendar'
 import CircleChart from '../components/CircleChart'
@@ -18,6 +19,19 @@ function Home({data}) {
   const [dateCurrent,setDateCurrent] = useState(dayjs().format(`YYYY/MM/DD`))
   const [firstDate,setFirstDate] = useState()
   const [lastDate,setLasteDate] = useState()
+  const [dayObj,setDayObj] = useState(dayjs())
+  const daysInMonth = dayObj.daysInMonth()
+  const thisYear = dayObj.year()
+  const thisMonth = dayObj.month()
+  const dayObjOf1 = dayjs(`${thisYear}-${thisMonth + 1}-1`)
+  const weekDayOf1 = dayObjOf1.day()
+  const dayObjOfLast = dayjs(`${thisYear}-${thisMonth + 1}-${daysInMonth}`)
+  const weekDayOfLast =  dayObjOfLast.day()
+  const [text,setText] = useState('tuần')
+  //danh sach cac ngay trong thang
+  const [arrDate,setArrDate] = useState('')
+  const [month,setMonth] = useState(dayjs().format(`MM`))
+  const [year,setyear] = useState(dayjs().format(`YYYY`))
   useEffect(()=>{
     const date = new Date(dateCurrent);
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -26,15 +40,25 @@ function Home({data}) {
     setLasteDate(lastDay)
   },[dateCurrent])
   useEffect(()=>{
-    const money = data&&((data[0].length * 90000) + (data[1].length * 20000))
+    const money = data&&((data[0].length * 90000) + (data[1].length * 90000))
     money&&setMoney(money)
   },[data])
+  const handleMoney = (data)=>{
+    setMoney(data)
+    console.log('data',data)
+  }
   const handleGetDayJs = (dayACtive,monthACtive,yearACtive)=>{
     setDateCurrent(`${yearACtive}/${monthACtive+1}/${dayACtive}`)
   }
   const handleGetDayJs1 = (dayACtive,monthACtive,yearACtive,firstDate,lastDate,t2,t3,t4,t5,t6,arr)=>{
+    if(arr!==''){
+      setArrDate(arr)
+    }
+    setMonth(monthACtive+1)
+    setyear(yearACtive)
     setDay(dayACtive)
     if(typeof(firstDate)=='string'){
+      setText('tháng')
       setFirstDate1('')
       setLastDate1('')
       setT2('')
@@ -44,6 +68,7 @@ function Home({data}) {
       setT6('')
     }
     else{
+      setText('tuần')
       setFirstDate1(
         firstDate.getDate()<10&&firstDate.getMonth()+1<10
         ?
@@ -151,7 +176,6 @@ function Home({data}) {
       )
     }
   }
-  // console.log(t3)
   return (
     <div className='home'>
       <div className='home__container'>
@@ -162,11 +186,11 @@ function Home({data}) {
             <Calendar forWeek right handleGetDayJs={handleGetDayJs1} forWeekTrue/>
           </div>
           <div className='home__line-body'>
-            <LineChart data1={data} day={day} firstDate1={firstDate1} lastDate1={lastDate1} t2={t2} t3={t3} t4={t4} t5={t5} t6={t6} />
+            <LineChart data1={data} handleMoney={handleMoney} arrDate={arrDate} month={month} year={year} day={day} firstDate1={firstDate1} lastDate1={lastDate1} t2={t2} t3={t3} t4={t4} t5={t5} t6={t6} />
           </div>
         </div>
         <div className='home__total'>
-          <span className='home__total-sp'>Tổng doanh thu theo tuần</span>
+          <span className='home__total-sp'>Tổng doanh thu theo {text}</span>
           <strong className='home__total-st'>{money&&money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}<span className='home__total-sp1'>đồng</span></strong>
         </div>
         <div className='home__pie'>
