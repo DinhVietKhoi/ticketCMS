@@ -16,7 +16,7 @@ function Router({handleOverlay,handleOverlay1,filter,dataEvent,dataFamily,settin
         <Route path="/EventList" element={<EventList />}></Route>
         <Route path="/DeviceManager" element={<DeviceManager />}></Route>
         <Route path="/Setting" element={<Setting handleOverlay={handleOverlay} setting={setting} data1={data1}/>}></Route>
-        <Route path="*" element={<NotFound />}></Route>
+        <Route path="/*" element={<NotFound />}></Route>
     </Routes>
   )
 }
