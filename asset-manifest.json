@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/DinhVietKhoi/ticketCMS/static/css/main.c14cdb3a.css",
-    "main.js": "/DinhVietKhoi/ticketCMS/static/js/main.0e66af99.js",
-    "static/media/avatar.jpg": "/DinhVietKhoi/ticketCMS/static/media/avatar.d11b29095e262a0d1e6e.jpg",
-    "static/media/notfound.jpg": "/DinhVietKhoi/ticketCMS/static/media/notfound.e8b10e53504acf75a4a6.jpg",
-    "index.html": "/DinhVietKhoi/ticketCMS/index.html",
-    "main.c14cdb3a.css.map": "/DinhVietKhoi/ticketCMS/static/css/main.c14cdb3a.css.map",
-    "main.0e66af99.js.map": "/DinhVietKhoi/ticketCMS/static/js/main.0e66af99.js.map"
+    "main.css": "/ticketCMS/static/css/main.c14cdb3a.css",
+    "main.js": "/ticketCMS/static/js/main.39f032b1.js",
+    "static/media/avatar.jpg": "/ticketCMS/static/media/avatar.d11b29095e262a0d1e6e.jpg",
+    "static/media/notfound.jpg": "/ticketCMS/static/media/notfound.e8b10e53504acf75a4a6.jpg",
+    "index.html": "/ticketCMS/index.html",
+    "main.c14cdb3a.css.map": "/ticketCMS/static/css/main.c14cdb3a.css.map",
+    "main.39f032b1.js.map": "/ticketCMS/static/js/main.39f032b1.js.map"
   },
   "entrypoints": [
     "static/css/main.c14cdb3a.css",
-    "static/js/main.0e66af99.js"
+    "static/js/main.39f032b1.js"
   ]
 }
